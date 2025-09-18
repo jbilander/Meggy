@@ -75,117 +75,413 @@ Wire Wire Line
 Connection ~ 1200 1150
 Wire Wire Line
 	1200 1150 1200 1200
-$Comp
-L Meggy:AT90USB1286-MU U2
-U 1 1 68CAE842
-P 4000 3600
-F 0 "U2" H 3950 3650 50  0000 L CNN
-F 1 "AT90USB1286-MU" H 3650 4200 50  0000 L CNN
-F 2 "Meggy:QFN50P900X900X100-65N-D" H 5200 5450 50  0001 L CNN
-F 3 "" H 5200 5350 50  0001 L CNN
-	1    4000 3600
-	1    0    0    -1  
-$EndComp
-Text GLabel 1450 3150 2    50   BiDi ~ 0
-D-
-Text GLabel 1450 3050 2    50   BiDi ~ 0
-D+
-Text GLabel 3850 5850 3    50   Input ~ 0
+Text GLabel 2550 2750 0    50   Input ~ 0
 CLK16M
-Text GLabel 850  3450 3    50   Input ~ 0
+Text GLabel 1250 3950 3    50   Input ~ 0
 GND
 $Comp
 L Connector:USB_B_Micro J1
 U 1 1 68CB996A
-P 850 3050
-F 0 "J1" H 907 3517 50  0000 C CNN
-F 1 "USB_B_Micro" H 907 3426 50  0000 C CNN
-F 2 "Meggy:101181940001LF" H 1000 3000 50  0001 C CNN
-F 3 "~" H 1000 3000 50  0001 C CNN
-	1    850  3050
+P 1250 3550
+F 0 "J1" H 1307 4017 50  0000 C CNN
+F 1 "USB_B_Micro" H 1307 3926 50  0000 C CNN
+F 2 "Meggy:101181940001LF" H 1400 3500 50  0001 C CNN
+F 3 "~" H 1400 3500 50  0001 C CNN
+	1    1250 3550
 	1    0    0    -1  
 $EndComp
 $Comp
 L Meggy:ROM-42pin U1
 U 1 1 68C9F45B
-P 10000 3500
-F 0 "U1" H 10000 4717 50  0000 C CNN
-F 1 "ROM-socket-42pin" H 10000 4626 50  0000 C CNN
-F 2 "Package_DIP:DIP-42_W15.24mm" H 9450 2250 50  0001 L CNN
-F 3 "" H 10000 3250 50  0001 C CNN
-	1    10000 3500
+P 7400 3400
+F 0 "U1" H 7400 4617 50  0000 C CNN
+F 1 "ROM-socket-42pin" H 7400 4526 50  0000 C CNN
+F 2 "Package_DIP:DIP-42_W15.24mm" H 6850 2150 50  0001 L CNN
+F 3 "" H 7400 3150 50  0001 C CNN
+	1    7400 3400
 	1    0    0    -1  
 $EndComp
-Text Label 1750 2850 0    50   ~ 0
+Text Label 1750 3350 1    50   ~ 0
 VBUS_5V
 Text Label 2200 3350 0    50   ~ 0
 VBUS
 $Comp
 L Device:R_Small R2
 U 1 1 68CDBA06
-P 1300 3150
-F 0 "R2" V 1400 3150 50  0000 C CNN
-F 1 "22" V 1300 3150 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 1300 3150 50  0001 C CNN
-F 3 "~" H 1300 3150 50  0001 C CNN
-	1    1300 3150
+P 1700 3650
+F 0 "R2" V 1800 3650 50  0000 C CNN
+F 1 "22" V 1700 3650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 1700 3650 50  0001 C CNN
+F 3 "~" H 1700 3650 50  0001 C CNN
+	1    1700 3650
 	0    1    1    0   
 $EndComp
-$Comp
-L Device:R_Small R1
-U 1 1 68CCF898
-P 1300 3050
-F 0 "R1" V 1400 3050 50  0000 C CNN
-F 1 "22" V 1300 3050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 1300 3050 50  0001 C CNN
-F 3 "~" H 1300 3050 50  0001 C CNN
-	1    1300 3050
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
-	1150 3050 1200 3050
+	1550 3550 1600 3550
 Wire Wire Line
-	1150 3150 1200 3150
-Wire Wire Line
-	1450 3050 1400 3050
-Wire Wire Line
-	1450 3150 1400 3150
-Text GLabel 2550 3050 0    50   BiDi ~ 0
-D+
-Text GLabel 2550 2950 0    50   BiDi ~ 0
-D-
+	1550 3650 1600 3650
 $Comp
 L Device:R_Small R3
 U 1 1 68CDBE7C
 P 1950 3350
 F 0 "R3" V 1850 3350 50  0000 C CNN
-F 1 "100Ω" V 2050 3350 50  0000 C CNN
+F 1 "100" V 1950 3350 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 1950 3350 50  0001 C CNN
 F 3 "~" H 1950 3350 50  0001 C CNN
 	1    1950 3350
 	0    1    1    0   
 $EndComp
+NoConn ~ 1550 3750
 Wire Wire Line
-	1150 2850 1750 2850
-Wire Wire Line
-	1750 2850 1750 3350
-Wire Wire Line
-	1750 3350 1850 3350
-Wire Wire Line
-	2050 3350 2550 3350
-NoConn ~ 1150 3250
-Wire Wire Line
-	750  3450 850  3450
-Text GLabel 1450 1950 0    50   Input ~ 0
+	1150 3950 1250 3950
+Text GLabel 5850 3500 2    50   Input ~ 0
 BOARD_5V
-Text GLabel 10500 4550 2    50   Output ~ 0
+Text GLabel 7900 4450 2    50   Output ~ 0
 VCC
-Text GLabel 9500 3650 0    50   Input ~ 0
+Text GLabel 6900 3550 0    50   Input ~ 0
 GND
-Text GLabel 10500 3650 2    50   Input ~ 0
+Text GLabel 7900 3550 2    50   Input ~ 0
 GND
-Text GLabel 10500 3550 2    50   Output ~ 0
+Text GLabel 7900 3450 2    50   Input ~ 0
+NC
+Text GLabel 3050 6250 3    50   Input ~ 0
+GND
+Text GLabel 7900 2450 2    50   Input ~ 0
+NC
+$Comp
+L Meggy:M29F160F U3
+U 1 1 68CB26C5
+P 5350 3500
+F 0 "U3" H 5350 4825 50  0000 C CNN
+F 1 "M29F160F" H 5350 4734 50  0000 C CNN
+F 2 "Package_SO:TSOP-I-48_18.4x12mm_P0.5mm" H 5350 4050 50  0001 C CNN
+F 3 "" H 5350 4050 50  0001 C CNN
+	1    5350 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L MCU_Microchip_AVR:AT90USB1286-MU U2
+U 1 1 68CB469F
+P 3150 4250
+F 0 "U2" H 3150 4400 50  0000 C CNN
+F 1 "AT90USB1286-MU" H 3150 4250 50  0000 C CNN
+F 2 "Meggy:QFN50P900X900X100-65N-D" H 3150 4250 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/doc7593.pdf" H 3150 4250 50  0001 C CNN
+	1    3150 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 6250 3150 6250
+Wire Wire Line
+	2550 3350 2050 3350
+Wire Wire Line
+	1550 3350 1850 3350
+Text Label 2200 3550 0    50   ~ 0
+D+
+Text Label 2200 3650 0    50   ~ 0
+D-
+$Comp
+L Device:R_Small R1
+U 1 1 68CCF898
+P 1700 3550
+F 0 "R1" V 1800 3550 50  0000 C CNN
+F 1 "22" V 1700 3550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 1700 3550 50  0001 C CNN
+F 3 "~" H 1700 3550 50  0001 C CNN
+	1    1700 3550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1800 3650 2550 3650
+Wire Wire Line
+	1800 3550 2550 3550
+Text GLabel 5850 4700 2    50   Input ~ 0
+A0
+Text GLabel 6900 3350 0    50   Input ~ 0
+A0
+Text GLabel 4850 4600 0    50   Input ~ 0
+A2
+Text GLabel 6900 3150 0    50   Input ~ 0
+A2
+Text GLabel 4850 4500 0    50   Input ~ 0
+A3
+Text GLabel 6900 3050 0    50   Input ~ 0
+A3
+Text GLabel 4850 4400 0    50   Input ~ 0
+A4
+Text GLabel 6900 2950 0    50   Input ~ 0
+A4
+Text GLabel 4850 4300 0    50   Input ~ 0
+A5
+Text GLabel 6900 2850 0    50   Input ~ 0
+A5
+Text GLabel 4850 4200 0    50   Input ~ 0
+A6
+Text GLabel 6900 2750 0    50   Input ~ 0
+A6
+Text GLabel 4850 4100 0    50   Input ~ 0
+A7
+Text GLabel 6900 2650 0    50   Input ~ 0
+A7
+Text GLabel 4850 3100 0    50   Input ~ 0
+A8
+Text GLabel 7900 2550 2    50   Input ~ 0
+A8
+Text GLabel 5850 4500 2    50   Input ~ 0
+GND
+Text GLabel 5850 2600 2    50   Input ~ 0
+GND
+Text GLabel 4850 3000 0    50   Input ~ 0
+A9
+Text GLabel 7900 2650 2    50   Input ~ 0
+A9
+Text GLabel 7900 2750 2    50   Input ~ 0
+A10
+Text GLabel 4850 2900 0    50   Input ~ 0
+A10
+Text GLabel 4850 2800 0    50   Input ~ 0
+A11
+Text GLabel 7900 2850 2    50   Input ~ 0
+A11
+Text GLabel 7900 2950 2    50   Input ~ 0
+A12
+Text GLabel 4850 2700 0    50   Input ~ 0
+A12
+Text GLabel 4850 2600 0    50   Input ~ 0
+A13
+Text GLabel 7900 3050 2    50   Input ~ 0
+A13
+Text GLabel 7900 3150 2    50   Input ~ 0
+A14
+Text GLabel 4850 2500 0    50   Input ~ 0
+A14
+Text GLabel 4850 2400 0    50   Input ~ 0
+A15
+Text GLabel 7900 3250 2    50   Input ~ 0
+A15
+Text GLabel 7900 3350 2    50   Input ~ 0
+A16
+Text GLabel 5850 2400 2    50   Input ~ 0
+A16
+Text GLabel 4850 4000 0    50   Input ~ 0
+A17
+Text GLabel 6900 2550 0    50   Input ~ 0
+A17
+Text GLabel 6900 2450 0    50   Input ~ 0
+A18
+Text GLabel 4850 3900 0    50   Input ~ 0
+A18
+Text GLabel 4500 3200 3    50   Input ~ 0
+A19
+Text GLabel 5850 2500 2    50   Input ~ 0
 BYTE
-Text GLabel 3150 1550 1    50   Input ~ 0
+$Comp
+L Connector_Generic:Conn_01x03 J2
+U 1 1 68D0214B
+P 4250 3000
+F 0 "J2" V 4214 2812 50  0000 R CNN
+F 1 "Conn_01x03" V 4350 3200 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4250 3000 50  0001 C CNN
+F 3 "~" H 4250 3000 50  0001 C CNN
+	1    4250 3000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4850 3200 4350 3200
+Text GLabel 4250 3200 3    50   Input ~ 0
 GND
+NoConn ~ 4150 3200
+Text GLabel 6900 3750 0    50   BiDi ~ 0
+D0
+Text GLabel 5850 4300 2    50   BiDi ~ 0
+D0
+Text GLabel 6900 3950 0    50   BiDi ~ 0
+D1
+Text GLabel 5850 4100 2    50   BiDi ~ 0
+D1
+Text GLabel 5850 3900 2    50   BiDi ~ 0
+D2
+Text GLabel 6900 4150 0    50   BiDi ~ 0
+D2
+Text GLabel 5850 3700 2    50   BiDi ~ 0
+D3
+Text GLabel 6900 4350 0    50   BiDi ~ 0
+D3
+Text GLabel 5850 3400 2    50   BiDi ~ 0
+D4
+Text GLabel 7900 4350 2    50   BiDi ~ 0
+D4
+Text GLabel 7900 4150 2    50   BiDi ~ 0
+D5
+Text GLabel 7900 3950 2    50   BiDi ~ 0
+D6
+Text GLabel 7900 3750 2    50   BiDi ~ 0
+D7
+Text GLabel 6900 3850 0    50   BiDi ~ 0
+D8
+Text GLabel 5850 3200 2    50   BiDi ~ 0
+D5
+Text GLabel 5850 3000 2    50   BiDi ~ 0
+D6
+Text GLabel 5850 2800 2    50   BiDi ~ 0
+D7
+Text GLabel 5850 4200 2    50   BiDi ~ 0
+D8
+Text GLabel 5850 4000 2    50   BiDi ~ 0
+D9
+Text GLabel 6900 4050 0    50   BiDi ~ 0
+D9
+Text GLabel 5850 3800 2    50   BiDi ~ 0
+D10
+Text GLabel 6900 4250 0    50   BiDi ~ 0
+D10
+Text GLabel 5850 3600 2    50   BiDi ~ 0
+D11
+Text GLabel 6900 4450 0    50   BiDi ~ 0
+D11
+Text GLabel 5850 3300 2    50   BiDi ~ 0
+D12
+Text GLabel 7900 4250 2    50   BiDi ~ 0
+D12
+Text GLabel 5850 3100 2    50   BiDi ~ 0
+D13
+Text GLabel 7900 4050 2    50   BiDi ~ 0
+D13
+Text GLabel 5850 2900 2    50   BiDi ~ 0
+D14
+Text GLabel 7900 3850 2    50   BiDi ~ 0
+D14
+Text GLabel 5850 2700 2    50   BiDi ~ 0
+D15
+Text GLabel 7900 3650 2    50   BiDi ~ 0
+D15
+Text GLabel 6900 3450 0    50   Input ~ 0
+NC
+Wire Wire Line
+	5850 4500 5850 4600
+Text GLabel 3150 2250 1    50   Input ~ 0
+BOARD_5V
+Wire Wire Line
+	3050 2250 3150 2250
+Connection ~ 3150 2250
+Wire Wire Line
+	3150 2250 3250 2250
+Text GLabel 3750 4350 2    50   BiDi ~ 0
+D0
+Text GLabel 3750 4450 2    50   BiDi ~ 0
+D1
+Text GLabel 3750 4550 2    50   BiDi ~ 0
+D2
+Text GLabel 3750 4650 2    50   BiDi ~ 0
+D3
+Text GLabel 3750 3450 2    50   BiDi ~ 0
+D8
+Text GLabel 3750 3550 2    50   BiDi ~ 0
+D9
+Text GLabel 3750 3650 2    50   BiDi ~ 0
+D10
+Text GLabel 3750 3750 2    50   BiDi ~ 0
+D11
+Text GLabel 3750 4750 2    50   BiDi ~ 0
+D4
+Text GLabel 3750 4850 2    50   BiDi ~ 0
+D5
+Text GLabel 3750 4950 2    50   BiDi ~ 0
+D6
+Text GLabel 3750 5050 2    50   BiDi ~ 0
+D7
+Text GLabel 3750 3850 2    50   BiDi ~ 0
+D12
+Text GLabel 3750 3950 2    50   BiDi ~ 0
+D13
+Text GLabel 3750 4050 2    50   BiDi ~ 0
+D14
+Text GLabel 3750 4150 2    50   BiDi ~ 0
+D15
+Text GLabel 3750 2550 2    50   Input ~ 0
+A0
+Text GLabel 3750 2750 2    50   Input ~ 0
+A2
+Text GLabel 3750 2850 2    50   Input ~ 0
+A3
+Text GLabel 3750 2950 2    50   Input ~ 0
+A4
+Text GLabel 3750 3050 2    50   Input ~ 0
+A5
+Text GLabel 3750 3150 2    50   Input ~ 0
+A6
+Text GLabel 3750 3250 2    50   Input ~ 0
+A7
+Text GLabel 3750 5250 2    50   Input ~ 0
+A8
+Text GLabel 3750 5350 2    50   Input ~ 0
+A9
+Text GLabel 3750 5450 2    50   Input ~ 0
+A10
+Text GLabel 3750 5550 2    50   Input ~ 0
+A11
+Text GLabel 3750 5650 2    50   Input ~ 0
+A12
+Text GLabel 3750 5750 2    50   Input ~ 0
+A13
+Text GLabel 3750 5850 2    50   Input ~ 0
+A14
+Text GLabel 3750 5950 2    50   Input ~ 0
+A15
+Text GLabel 2550 5750 0    50   Input ~ 0
+A16
+Text GLabel 2550 5950 0    50   Input ~ 0
+A18
+Text GLabel 2550 2950 0    50   Input ~ 0
+XTAL2
+Text GLabel 2550 2550 0    50   Input ~ 0
+RESET
+Text GLabel 2550 3150 0    50   Input ~ 0
+AREF
+Text GLabel 2550 3850 0    50   Input ~ 0
+UCAP
+Text GLabel 2550 4550 0    50   Input ~ 0
+HWB
+Text GLabel 2550 4350 0    50   Input ~ 0
+PE0
+Text GLabel 2550 4450 0    50   Input ~ 0
+PE1
+Text GLabel 2550 4650 0    50   Input ~ 0
+PE3
+Text GLabel 2550 4750 0    50   Input ~ 0
+PE4
+Text GLabel 2550 5250 0    50   Input ~ 0
+PF0
+Text GLabel 2550 5350 0    50   Input ~ 0
+PF1
+Text GLabel 2550 5450 0    50   Input ~ 0
+PF2
+Text GLabel 2550 5550 0    50   Input ~ 0
+PF3
+Text GLabel 2550 4850 0    50   Input ~ 0
+PE5
+Text GLabel 2550 4950 0    50   Input ~ 0
+PE6
+Text GLabel 2550 5050 0    50   Input ~ 0
+PE7
+Text GLabel 4850 3400 0    50   Input ~ 0
+WE
+Text GLabel 4850 3500 0    50   Input ~ 0
+RST
+Text GLabel 4850 3800 0    50   Input ~ 0
+RY-BY
+Text GLabel 5850 4400 2    50   Input ~ 0
+OE_FLASH
+Text GLabel 6900 3650 0    50   Input ~ 0
+OE_SOCKET
+Text GLabel 2550 5650 0    50   Input ~ 0
+RY-BY
+Text GLabel 3750 2650 2    50   Input ~ 0
+A1
+Text GLabel 4850 4700 0    50   Input ~ 0
+A1
+Text GLabel 6900 3250 0    50   Input ~ 0
+A1
+Text GLabel 2550 5850 0    50   Input ~ 0
+A17
 $EndSCHEMATC
