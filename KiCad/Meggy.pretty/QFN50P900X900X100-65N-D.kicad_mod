@@ -1,12 +1,12 @@
-(module QFN50P900X900X100-65N-D (layer F.Cu) (tedit 68CA4874)
+(module QFN50P900X900X100-65N-D (layer F.Cu) (tedit 68CAFFF4)
   (descr "QFN, 64 Pin (https://www.analog.com/media/en/technical-documentation/data-sheets/229321fa.pdf#page=27), generated with kicad-footprint-generator ipc_noLead_generator.py")
   (tags "QFN NoLead")
   (attr smd)
-  (fp_text reference U1 (at 0 6.1) (layer F.SilkS)
-    (effects (font (size 1 1) (thickness 0.15)))
+  (fp_text reference U2 (at 6.2 -5.1) (layer F.SilkS)
+    (effects (font (size 1.27 1.27) (thickness 0.254)))
   )
-  (fp_text value AVR128DA64-I_MR (at 0 5.82) (layer F.Fab) hide
-    (effects (font (size 1 1) (thickness 0.15)))
+  (fp_text value AT90USB1286-MU (at 0 0) (layer F.SilkS) hide
+    (effects (font (size 1.27 1.27) (thickness 0.254)))
   )
   (fp_circle (center -4.55 -4.4) (end -4.55 -4.275) (layer F.SilkS) (width 0.25))
   (fp_line (start 5.12 -5.12) (end -5.12 -5.12) (layer F.CrtYd) (width 0.05))
@@ -25,7 +25,7 @@
   (fp_line (start 4.61 -4.61) (end 4.61 -4.135) (layer F.SilkS) (width 0.12))
   (fp_line (start 4.135 -4.61) (end 4.61 -4.61) (layer F.SilkS) (width 0.12))
   (fp_text user %R (at 0 0) (layer F.Fab) hide
-    (effects (font (size 1 1) (thickness 0.15)))
+    (effects (font (size 1.27 1.27) (thickness 0.254)))
   )
   (pad "" smd roundrect (at 2.66 2.66) (size 1.152903 1.152903) (layers F.Paste) (roundrect_rratio 0.216844))
   (pad "" smd roundrect (at 2.66 1.33) (size 1.152903 1.152903) (layers F.Paste) (roundrect_rratio 0.216844))
@@ -51,8 +51,6 @@
   (pad "" smd roundrect (at -2.66 0) (size 1.152903 1.152903) (layers F.Paste) (roundrect_rratio 0.216844))
   (pad "" smd roundrect (at -2.66 -1.33) (size 1.152903 1.152903) (layers F.Paste) (roundrect_rratio 0.216844))
   (pad "" smd roundrect (at -2.66 -2.66) (size 1.152903 1.152903) (layers F.Paste) (roundrect_rratio 0.216844))
-  (pad 65 smd rect (at 0 0) (size 7.5 7.5) (layers B.Cu)
-    (zone_connect 2))
   (pad 65 thru_hole circle (at 0 0) (size 3 3) (drill 2) (layers *.Cu *.Mask))
   (pad 65 smd rect (at 0 0) (size 7.5 7.5) (layers F.Cu F.Mask))
   (pad 64 smd rect (at -3.75 -4.55) (size 0.3 1.05) (layers F.Cu F.Paste F.Mask))
@@ -121,7 +119,7 @@
   (pad 3 smd rect (at -4.55 -2.75) (size 1.05 0.3) (layers F.Cu F.Paste F.Mask))
   (pad 2 smd rect (at -4.55 -3.25) (size 1.05 0.3) (layers F.Cu F.Paste F.Mask))
   (pad 1 smd rect (at -4.55 -3.75) (size 1.05 0.3) (layers F.Cu F.Paste F.Mask))
-  (model ${KIPRJMOD}/packages3d/AVR128DA64-I_MR.stp
+  (model ${KIPRJMOD}/packages3d/AT90USB1286-MU.stp
     (at (xyz 0 0 0))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 0 0))
