@@ -623,7 +623,7 @@ Text Notes 2900 950  0    50   ~ 0
 D
 Text Notes 2900 1450 0    50   ~ 0
 S
-Text Notes 2900 650  0    50   ~ 0
+Text Notes 3050 650  0    50   ~ 0
 P-Channel MOSFETs
 Text GLabel 3250 750  2    50   Input ~ 0
 BOARD_5V
@@ -657,54 +657,12 @@ F 3 "https://www.diodes.com//assets/Datasheets/DMP2305U.pdf" H 4150 1100 50  000
 $EndComp
 Text GLabel 1700 3350 1    50   Output ~ 0
 VBUS_5V
-Text GLabel 2850 1450 3    50   Input ~ 0
+Text GLabel 2850 1550 3    50   Input ~ 0
 VBUS_5V
-Text GLabel 4000 1450 3    50   Input ~ 0
+Text GLabel 4000 1550 3    50   Input ~ 0
 VCC
-$Comp
-L Device:R_Small R6
-U 1 1 68D97863
-P 3650 1050
-F 0 "R6" V 3550 1050 50  0000 C CNN
-F 1 "100" V 3650 1050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 3650 1050 50  0001 C CNN
-F 3 "~" H 3650 1050 50  0001 C CNN
-	1    3650 1050
-	-1   0    0    1   
-$EndComp
-$Comp
-L Device:R_Small R5
-U 1 1 68D98E8C
-P 2500 1050
-F 0 "R5" V 2400 1050 50  0000 C CNN
-F 1 "100" V 2500 1050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" H 2500 1050 50  0001 C CNN
-F 3 "~" H 2500 1050 50  0001 C CNN
-	1    2500 1050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2550 1250 2500 1250
-Wire Wire Line
-	2500 1250 2500 1150
-Wire Wire Line
-	3700 1250 3650 1250
-Wire Wire Line
-	3650 1250 3650 1150
-Wire Wire Line
-	2500 950  2500 850 
-Wire Wire Line
-	2500 850  2850 850 
-Connection ~ 2850 850 
-Wire Wire Line
-	3650 950  3650 850 
-Connection ~ 3650 850 
-Wire Wire Line
-	3650 850  4000 850 
 Wire Wire Line
 	3250 750  3250 850 
-Wire Wire Line
-	3250 850  3650 850 
 Wire Wire Line
 	2850 850  3250 850 
 Connection ~ 3250 850 
@@ -712,4 +670,46 @@ Text GLabel 2550 4450 0    50   Input ~ 0
 RST
 Text GLabel 2550 4350 0    50   Input ~ 0
 WE
+Wire Wire Line
+	2850 1450 2850 1550
+Wire Wire Line
+	4000 1450 4000 1550
+Text GLabel 2200 1250 0    50   Input ~ 0
+GND
+Wire Wire Line
+	2250 1250 2200 1250
+Text GLabel 3500 1600 3    50   Input ~ 0
+GND
+Wire Wire Line
+	3500 1250 3500 1300
+Wire Wire Line
+	3250 850  4000 850 
+$Comp
+L Device:D_Small D1
+U 1 1 68E1A907
+P 2350 1250
+F 0 "D1" H 2350 1043 50  0000 C CNN
+F 1 "MMDL6050T1G" H 2350 1134 50  0000 C CNN
+F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" V 2350 1250 50  0001 C CNN
+F 3 "~" V 2350 1250 50  0001 C CNN
+	1    2350 1250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2450 1250 2550 1250
+Wire Wire Line
+	3500 1250 3700 1250
+$Comp
+L Device:D_Small D2
+U 1 1 68E38814
+P 3500 1400
+F 0 "D2" V 3500 1250 50  0000 C CNN
+F 1 "MMDL6050T1G" V 3600 1450 50  0000 C CNN
+F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" V 3500 1400 50  0001 C CNN
+F 3 "~" V 3500 1400 50  0001 C CNN
+	1    3500 1400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3500 1500 3500 1600
 $EndSCHEMATC
