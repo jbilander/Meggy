@@ -830,4 +830,44 @@ Text GLabel 6400 1700 3    50   Input ~ 0
 OE_SOCKET
 Text GLabel 6900 3650 0    50   Input ~ 0
 OE_SOCKET
+$Comp
+L Device:R_Pack04 RN2
+U 1 1 68F0018D
+P 7500 900
+F 0 "RN2" H 7688 946 50  0000 L CNN
+F 1 "10k" H 7688 855 50  0000 L CNN
+F 2 "Meggy:RESCAF80P320X160X60-8N" V 7775 900 50  0001 C CNN
+F 3 "~" H 7500 900 50  0001 C CNN
+	1    7500 900 
+	1    0    0    -1  
+$EndComp
+Text GLabel 7750 650  2    50   Input ~ 0
+BOARD_5V
+Wire Wire Line
+	7400 700  7400 650 
+Wire Wire Line
+	7400 650  7500 650 
+Wire Wire Line
+	7500 700  7500 650 
+Connection ~ 7500 650 
+Wire Wire Line
+	7500 650  7600 650 
+Wire Wire Line
+	7600 700  7600 650 
+Connection ~ 7600 650 
+Wire Wire Line
+	7600 650  7750 650 
+Wire Wire Line
+	7400 650  7300 650 
+Wire Wire Line
+	7300 650  7300 700 
+Connection ~ 7400 650 
+Text GLabel 7400 1100 3    50   Input ~ 0
+RY-BY
+Text GLabel 7300 1100 3    50   Input ~ 0
+A19
+Text GLabel 7600 1100 3    50   Input ~ 0
+WE
+Text GLabel 7500 1100 3    50   Input ~ 0
+RST
 $EndSCHEMATC
