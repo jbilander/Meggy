@@ -171,7 +171,7 @@ Wire Wire Line
 Wire Wire Line
 	2550 3350 2050 3350
 Wire Wire Line
-	1550 3350 1850 3350
+	1550 3350 1700 3350
 Text Label 2200 3550 0    50   ~ 0
 D+
 Text Label 2200 3650 0    50   ~ 0
@@ -446,8 +446,6 @@ Text GLabel 2550 5350 0    50   Input ~ 0
 PF1
 Text GLabel 2550 5450 0    50   Input ~ 0
 PF2
-Text GLabel 2550 5550 0    50   Input ~ 0
-PF3
 Text GLabel 2550 4850 0    50   Input ~ 0
 PE5
 Text GLabel 2550 4950 0    50   Input ~ 0
@@ -462,8 +460,6 @@ Text GLabel 4850 3800 0    50   Input ~ 0
 RY-BY
 Text GLabel 5850 4400 2    50   Input ~ 0
 OE_FLASH
-Text GLabel 6900 3650 0    50   Input ~ 0
-OE_SOCKET
 Text GLabel 2550 5650 0    50   Input ~ 0
 RY-BY
 Text GLabel 3750 2650 2    50   Input ~ 0
@@ -655,7 +651,7 @@ F 3 "https://www.diodes.com//assets/Datasheets/DMP2305U.pdf" H 4150 1100 50  000
 	1    3700 1250
 	1    0    0    -1  
 $EndComp
-Text GLabel 1700 3350 1    50   Output ~ 0
+Text GLabel 1700 3250 1    50   Output ~ 0
 VBUS_5V
 Text GLabel 2850 1550 3    50   Input ~ 0
 VBUS_5V
@@ -712,4 +708,126 @@ F 3 "~" V 3500 1400 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3500 1500 3500 1600
+$Comp
+L Meggy:DMP2305U-7 Q3
+U 1 1 68E4900A
+P 6100 1500
+F 0 "Q3" H 6530 1646 50  0000 L CNN
+F 1 "DMP2305U-7" H 6530 1555 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 6550 1450 50  0001 L CNN
+F 3 "https://www.diodes.com//assets/Datasheets/DMP2305U.pdf" H 6550 1350 50  0001 L CNN
+	1    6100 1500
+	1    0    0    -1  
+$EndComp
+Text GLabel 6400 1000 1    50   Input ~ 0
+OE_FLASH
+Text Notes 6100 1600 0    50   ~ 0
+G
+Text Notes 6450 1200 0    50   ~ 0
+D
+Text Notes 6450 1700 0    50   ~ 0
+S
+$Comp
+L Device:R_Pack04 RN1
+U 1 1 68E54917
+P 5500 900
+F 0 "RN1" H 5688 946 50  0000 L CNN
+F 1 "10k" H 5688 855 50  0000 L CNN
+F 2 "Meggy:RESCAF80P320X160X60-8N" V 5775 900 50  0001 C CNN
+F 3 "~" H 5500 900 50  0001 C CNN
+	1    5500 900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 1500 6100 1500
+$Comp
+L Device:D_Small D3
+U 1 1 68E5A0C5
+P 5300 1650
+F 0 "D3" V 5300 1800 50  0000 C CNN
+F 1 "MMDL6050T1G" V 5400 2000 50  0000 C CNN
+F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" V 5300 1650 50  0001 C CNN
+F 3 "~" V 5300 1650 50  0001 C CNN
+	1    5300 1650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5300 1550 5300 1500
+Text GLabel 5300 1850 3    50   Input ~ 0
+GND
+Wire Wire Line
+	5300 1850 5300 1750
+Text GLabel 5750 650  2    50   Input ~ 0
+BOARD_5V
+Wire Wire Line
+	5400 700  5400 650 
+Wire Wire Line
+	5400 650  5500 650 
+Wire Wire Line
+	5500 700  5500 650 
+Connection ~ 5500 650 
+Wire Wire Line
+	5500 650  5600 650 
+Wire Wire Line
+	5600 700  5600 650 
+Connection ~ 5600 650 
+Wire Wire Line
+	5600 650  5750 650 
+Wire Wire Line
+	6400 1000 6400 1100
+Text GLabel 5600 1100 3    50   Input ~ 0
+RESET
+Text GLabel 5500 1100 3    50   Input ~ 0
+HWB
+Text GLabel 5050 650  0    50   Input ~ 0
+VBUS_5V
+Wire Wire Line
+	5300 1500 5150 1500
+Connection ~ 5300 1500
+Wire Wire Line
+	5300 1100 5300 1400
+Wire Wire Line
+	5300 1400 5800 1400
+Wire Wire Line
+	5800 1400 5800 1100
+Wire Wire Line
+	5800 1100 6400 1100
+Connection ~ 6400 1100
+Wire Wire Line
+	5400 650  5300 650 
+Wire Wire Line
+	5300 650  5300 700 
+Connection ~ 5400 650 
+Text GLabel 5400 1100 3    50   Input ~ 0
+BYTE
+$Comp
+L Device:R_Small R5
+U 1 1 68EC4E2C
+P 5150 900
+F 0 "R5" H 5300 850 50  0000 C CNN
+F 1 "10k" H 5300 950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 5150 900 50  0001 C CNN
+F 3 "~" H 5150 900 50  0001 C CNN
+	1    5150 900 
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5050 650  5150 650 
+Wire Wire Line
+	5150 650  5150 800 
+Wire Wire Line
+	5150 1000 5150 1500
+Wire Wire Line
+	1700 3250 1700 3350
+Connection ~ 1700 3350
+Wire Wire Line
+	1700 3350 1850 3350
+Text Label 2200 3850 0    50   ~ 0
+UCAP
+Text GLabel 2550 5550 0    50   Input ~ 0
+OE_FLASH
+Text GLabel 6400 1700 3    50   Input ~ 0
+OE_SOCKET
+Text GLabel 6900 3650 0    50   Input ~ 0
+OE_SOCKET
 $EndSCHEMATC
