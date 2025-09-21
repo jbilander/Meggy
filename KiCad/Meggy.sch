@@ -140,8 +140,6 @@ Text GLabel 7900 3550 2    50   Input ~ 0
 GND
 Text GLabel 3050 6250 3    50   Input ~ 0
 GND
-Text GLabel 7900 2450 2    50   Input ~ 0
-NC
 $Comp
 L Meggy:M29F160F U3
 U 1 1 68CB26C5
@@ -428,26 +426,8 @@ Text GLabel 2550 2950 0    50   Input ~ 0
 XTAL2
 Text GLabel 2450 2450 0    50   Input ~ 0
 RESET
-Text GLabel 2550 3150 0    50   Input ~ 0
-AREF
-Text GLabel 2200 4550 3    50   Input ~ 0
+Text GLabel 2050 4550 3    50   Input ~ 0
 HWB
-Text GLabel 2550 4650 0    50   Input ~ 0
-PE3
-Text GLabel 2550 4750 0    50   Input ~ 0
-PE4
-Text GLabel 2550 5250 0    50   Input ~ 0
-PF0
-Text GLabel 2550 5350 0    50   Input ~ 0
-PF1
-Text GLabel 2550 5450 0    50   Input ~ 0
-PF2
-Text GLabel 2550 4850 0    50   Input ~ 0
-PE5
-Text GLabel 2550 4950 0    50   Input ~ 0
-PE6
-Text GLabel 2550 5050 0    50   Input ~ 0
-PE7
 Text GLabel 4850 3400 0    50   Input ~ 0
 WE
 Text GLabel 4850 3500 0    50   Input ~ 0
@@ -820,7 +800,7 @@ Text GLabel 2550 5550 0    50   Input ~ 0
 OE_FLASH
 Text GLabel 6400 1700 3    50   Input ~ 0
 OE_SOCKET
-Text GLabel 6900 3650 0    50   Input ~ 0
+Text GLabel 6900 3650 0    50   Output ~ 0
 OE_SOCKET
 $Comp
 L Device:R_Pack04 RN2
@@ -904,4 +884,25 @@ Text GLabel 5500 1100 3    50   Input ~ 0
 BYTE
 Text GLabel 5400 1100 3    50   Input ~ 0
 HWB
+NoConn ~ 7900 2450
+Text Label 7900 2450 0    50   ~ 0
+A19_(NC)
+Text Label 2550 3150 2    50   ~ 0
+AREF_(NC)
+Text Label 2550 4650 2    50   ~ 0
+PE3_(NC)
+Text Label 2550 4750 2    50   ~ 0
+PE4_(NC)
+Text Label 2550 4850 2    50   ~ 0
+PE5_(NC)
+Text Label 2550 4950 2    50   ~ 0
+PE6_(NC)
+Text Label 2550 5050 2    50   ~ 0
+PE7_(NC)
+Text Label 2550 5250 2    50   ~ 0
+PF0_(NC)
+Text Label 2550 5350 2    50   ~ 0
+PF1_(NC)
+Text Label 2550 5450 2    50   ~ 0
+PF2_(NC)
 $EndSCHEMATC
