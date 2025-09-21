@@ -138,8 +138,6 @@ Text GLabel 6900 3550 0    50   Input ~ 0
 GND
 Text GLabel 7900 3550 2    50   Input ~ 0
 GND
-Text GLabel 7900 3450 2    50   Input ~ 0
-NC2
 Text GLabel 3050 6250 3    50   Input ~ 0
 GND
 Text GLabel 7900 2450 2    50   Input ~ 0
@@ -351,8 +349,6 @@ Text GLabel 5850 2700 2    50   BiDi ~ 0
 D15
 Text GLabel 7900 3650 2    50   BiDi ~ 0
 D15
-Text GLabel 6900 3450 0    50   Input ~ 0
-NC1
 Wire Wire Line
 	5850 4500 5850 4600
 Text GLabel 3150 2250 1    50   Input ~ 0
@@ -870,4 +866,10 @@ Text GLabel 7600 1100 3    50   Input ~ 0
 WE
 Text GLabel 7500 1100 3    50   Input ~ 0
 RST
+NoConn ~ 6900 3450
+Text Label 6900 3450 2    50   ~ 0
+CE_(NC)
+Text Label 7900 3450 0    50   ~ 0
+BYTE_VPP(NC)
+NoConn ~ 7900 3450
 $EndSCHEMATC
