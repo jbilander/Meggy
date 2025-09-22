@@ -422,8 +422,6 @@ Text GLabel 2550 5750 0    50   Input ~ 0
 A16
 Text GLabel 2550 5950 0    50   Input ~ 0
 A18
-Text GLabel 2550 2950 0    50   Input ~ 0
-XTAL2
 Text GLabel 2450 2450 0    50   Input ~ 0
 RESET
 Text GLabel 2050 4550 3    50   Input ~ 0
@@ -905,4 +903,6 @@ Text Label 2550 5350 2    50   ~ 0
 PF1_(NC)
 Text Label 2550 5450 2    50   ~ 0
 PF2_(NC)
+Text Label 2550 2950 2    50   ~ 0
+XTAL2_(NC)
 $EndSCHEMATC

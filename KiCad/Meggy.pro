@@ -1,4 +1,4 @@
-update=2025 September 17, Wednesday 10:27:20
+update=2025 September 22, Monday 10:29:34
 version=1
 last_client=kicad
 [general]
@@ -16,7 +16,7 @@ LibDir=
 version=1
 PageLayoutDescrFile=
 LastNetListRead=
-CopperLayerCount=4
+CopperLayerCount=6
 BoardThickness=1.6
 AllowMicroVias=0
 AllowBlindVias=0
@@ -79,17 +79,17 @@ Name=GND
 Type=1
 Enabled=1
 [pcbnew/Layer.In2.Cu]
-Name=VCC
-Type=1
+Name=Inner_signal.Cu
+Type=0
 Enabled=1
 [pcbnew/Layer.In3.Cu]
-Name=In3.Cu
-Type=0
-Enabled=0
+Name=5V_BOARD
+Type=1
+Enabled=1
 [pcbnew/Layer.In4.Cu]
-Name=In4.Cu
-Type=0
-Enabled=0
+Name=GND2
+Type=1
+Enabled=1
 [pcbnew/Layer.In5.Cu]
 Name=In5.Cu
 Type=0
