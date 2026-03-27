@@ -422,7 +422,7 @@ Text GLabel 2550 5250 0    50   Input ~ 0
 A16
 Text GLabel 2550 5450 0    50   Input ~ 0
 A18
-Text GLabel 2450 2450 0    50   Input ~ 0
+Text GLabel 2550 2550 0    50   Input ~ 0
 RESET
 Text GLabel 2050 4550 1    50   Input ~ 0
 HWB
@@ -709,26 +709,9 @@ BYTE_VPP(NC)
 NoConn ~ 7900 3450
 $Comp
 L Switch:SW_Push SW1
-U 1 1 68D03EF3
-P 2250 2250
-F 0 "SW1" H 2250 2535 50  0000 C CNN
-F 1 "SW_Push" H 2250 2444 50  0000 C CNN
-F 2 "Meggy:Sunrom_Tactile_Switch_3x4x2mm_SMD_2-Pin" H 2250 2450 50  0001 C CNN
-F 3 "~" H 2250 2450 50  0001 C CNN
-	1    2250 2250
-	1    0    0    -1  
-$EndComp
-Text GLabel 2050 2250 0    50   Input ~ 0
-GND
-Wire Wire Line
-	2550 2550 2450 2550
-Wire Wire Line
-	2450 2550 2450 2250
-$Comp
-L Switch:SW_Push SW2
 U 1 1 68D65985
 P 1750 4550
-F 0 "SW2" H 1750 4835 50  0000 C CNN
+F 0 "SW1" H 1750 4835 50  0000 C CNN
 F 1 "SW_Push" H 1750 4744 50  0000 C CNN
 F 2 "Meggy:Sunrom_Tactile_Switch_3x4x2mm_SMD_2-Pin" H 1750 4750 50  0001 C CNN
 F 3 "~" H 1750 4750 50  0001 C CNN
