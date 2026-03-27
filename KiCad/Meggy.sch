@@ -587,101 +587,14 @@ Wire Wire Line
 Wire Wire Line
 	6600 5650 6600 5600
 Connection ~ 6200 5650
-Text Notes 2550 1350 0    50   ~ 0
-G
-Text Notes 2900 950  0    50   ~ 0
-D
-Text Notes 2900 1450 0    50   ~ 0
-S
-Text Notes 3050 650  0    50   ~ 0
-P-Channel MOSFETs
-Text GLabel 3250 750  2    50   Input ~ 0
-BOARD_5V
-$Comp
-L Meggy:DMP2305U-7 Q1
-U 1 1 68D8212F
-P 2550 1250
-F 0 "Q1" H 2980 1396 50  0000 L CNN
-F 1 "DMP2305U-7" H 2980 1305 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 3000 1200 50  0001 L CNN
-F 3 "https://www.diodes.com//assets/Datasheets/DMP2305U.pdf" H 3000 1100 50  0001 L CNN
-	1    2550 1250
-	1    0    0    -1  
-$EndComp
-Text Notes 3700 1350 0    50   ~ 0
-G
-Text Notes 4050 950  0    50   ~ 0
-D
-Text Notes 4050 1450 0    50   ~ 0
-S
-$Comp
-L Meggy:DMP2305U-7 Q2
-U 1 1 68D926EB
-P 3700 1250
-F 0 "Q2" H 4130 1396 50  0000 L CNN
-F 1 "DMP2305U-7" H 4130 1305 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 4150 1200 50  0001 L CNN
-F 3 "https://www.diodes.com//assets/Datasheets/DMP2305U.pdf" H 4150 1100 50  0001 L CNN
-	1    3700 1250
-	1    0    0    -1  
-$EndComp
 Text GLabel 1700 3250 1    50   Output ~ 0
 VBUS_5V
-Text GLabel 2850 1550 3    50   Input ~ 0
+Text GLabel 3000 900  0    50   Input ~ 0
 VBUS_5V
-Text GLabel 4000 1550 3    50   Input ~ 0
-VCC
-Wire Wire Line
-	3250 750  3250 850 
-Wire Wire Line
-	2850 850  3250 850 
-Connection ~ 3250 850 
 Text GLabel 2550 4450 0    50   Input ~ 0
 RST
 Text GLabel 2550 4350 0    50   Input ~ 0
 WE
-Wire Wire Line
-	2850 1450 2850 1550
-Wire Wire Line
-	4000 1450 4000 1550
-Text GLabel 2200 1250 0    50   Input ~ 0
-GND
-Wire Wire Line
-	2250 1250 2200 1250
-Text GLabel 3500 1600 3    50   Input ~ 0
-GND
-Wire Wire Line
-	3500 1250 3500 1300
-Wire Wire Line
-	3250 850  4000 850 
-$Comp
-L Device:D_Small D1
-U 1 1 68E1A907
-P 2350 1250
-F 0 "D1" H 2350 1043 50  0000 C CNN
-F 1 "MMDL6050T1G" H 2350 1134 50  0000 C CNN
-F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" V 2350 1250 50  0001 C CNN
-F 3 "~" V 2350 1250 50  0001 C CNN
-	1    2350 1250
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	2450 1250 2550 1250
-Wire Wire Line
-	3500 1250 3700 1250
-$Comp
-L Device:D_Small D2
-U 1 1 68E38814
-P 3500 1400
-F 0 "D2" V 3500 1250 50  0000 C CNN
-F 1 "MMDL6050T1G" V 3600 1450 50  0000 C CNN
-F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" V 3500 1400 50  0001 C CNN
-F 3 "~" V 3500 1400 50  0001 C CNN
-	1    3500 1400
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	3500 1500 3500 1600
 Text GLabel 6000 1750 2    50   Output ~ 0
 OE_FLASH
 $Comp
@@ -865,7 +778,7 @@ $EndComp
 Wire Wire Line
 	5150 1400 5150 1000
 Text GLabel 2550 4750 0    50   Input ~ 0
-OE_SOCKET_EN
+OE_BUF_EN
 Wire Wire Line
 	5850 1750 5900 1750
 Wire Wire Line
@@ -876,7 +789,7 @@ Connection ~ 5900 1750
 Wire Wire Line
 	5900 1750 6000 1750
 Text GLabel 4750 1750 0    50   Input ~ 0
-OE_SOCKET_EN
+OE_BUF_EN
 Wire Wire Line
 	4800 1750 4800 1400
 Wire Wire Line
@@ -891,4 +804,32 @@ BOARD_5V
 Wire Wire Line
 	5150 650  5300 650 
 Connection ~ 5300 650 
+$Comp
+L Device:D_Schottky D1
+U 1 1 6A56256F
+P 3150 900
+F 0 "D1" H 3150 683 50  0000 C CNN
+F 1 "CDBU0520" H 3150 774 50  0000 C CNN
+F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" H 3150 900 50  0001 C CNN
+F 3 "~" H 3150 900 50  0001 C CNN
+	1    3150 900 
+	-1   0    0    1   
+$EndComp
+Text GLabel 3300 900  2    50   Output ~ 0
+BOARD_5V
+$Comp
+L Device:D_Schottky D2
+U 1 1 6A57DF54
+P 3150 1300
+F 0 "D2" H 3150 1083 50  0000 C CNN
+F 1 "CDBU0520" H 3150 1174 50  0000 C CNN
+F 2 "Meggy:D_0603_1608Metric_Pad_0.975x0.95mm_HandSolder" H 3150 1300 50  0001 C CNN
+F 3 "~" H 3150 1300 50  0001 C CNN
+	1    3150 1300
+	-1   0    0    1   
+$EndComp
+Text GLabel 3000 1300 0    50   Input ~ 0
+VCC
+Text GLabel 3300 1300 2    50   Output ~ 0
+BOARD_5V
 $EndSCHEMATC
