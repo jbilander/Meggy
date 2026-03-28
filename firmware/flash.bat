@@ -15,7 +15,9 @@ if not exist %TARGET% (
 )
 
 echo Flashing %TARGET% ...
-%AVRDUDE% -C%CONF% -c flip1 -p usb1286 -U flash:w:%TARGET%:i
+:: avrdude returns non-zero due to fuse read failures which are harmless.
+:: Check for success by looking for the verified line instead.
+%AVRDUDE% -C%CONF% -c flip1 -p usb1286 -U flash:w:%TARGET%:i 2>&1 | findstr /C:"bytes of flash verified" >nul
 
 if errorlevel 1 (
     echo.
@@ -26,4 +28,8 @@ if errorlevel 1 (
 )
 
 echo.
-echo Flash successful. Device is running new firmware.
+echo Flash successful.
+echo.
+echo Triggering AVR reset...
+python ..\meggy_flash.py --avr-reset 2>nul || echo (Skipped - install pyusb and WinUSB driver to enable auto-reset)
+echo Done.

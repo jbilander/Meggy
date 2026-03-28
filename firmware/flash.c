@@ -147,6 +147,30 @@ static uint8_t wait_ready(uint32_t timeout_us)
  * Public API
  * ----------------------------------------------------------------------- */
 
+
+/* -----------------------------------------------------------------------
+ * OE buffer (74AHCT1G126GW) control — PE4 with external 10k pull-up.
+ *
+ * Pull-up keeps buffer ENABLED by default (Amiga in control of /OE).
+ * Driving PE4 low tristates the buffer, giving AVR sole control of /OE.
+ *
+ * NOTE: These functions are no-ops on Rev A which lacks PE4 routing.
+ *       On Rev B PE4 is connected to the buffer enable pin.
+ * ----------------------------------------------------------------------- */
+void oe_buf_isolate(void)
+{
+    /* Drive PE4 low — tristate the buffer, isolate Gary from flash /OE */
+    DDRE  |=  (1 << PE4);
+    PORTE &= ~(1 << PE4);
+}
+
+void oe_buf_release(void)
+{
+    /* Return PE4 to input — external 10k pull-up re-enables the buffer */
+    DDRE  &= ~(1 << PE4);
+    PORTE &= ~(1 << PE4);
+}
+
 void flash_bus_release(void)
 {
     /*

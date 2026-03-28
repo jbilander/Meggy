@@ -55,6 +55,7 @@ CMD_SECTOR_ERASE = 0x04
 CMD_PROGRAM      = 0x05
 CMD_GET_STATUS   = 0x06
 CMD_FLASH_RESET  = 0x07
+CMD_AVR_RESET    = 0x08
 
 STATUS_OK        = 0x00
 STATUS_ERROR     = 0x01
@@ -307,10 +308,13 @@ class MeggyCom:
             w0 = data[0] | (data[1] << 8)
             w1 = data[2] | (data[3] << 8)
             print(f"  Flash reset: word[0]=0x{w0:04X} word[1]=0x{w1:04X}")
-            if w0 == 0x2193 or w0 == 0x2183:
-                print("  WARNING: Flash still in autoselect mode after reset!")
+            # Autoselect responses have 0x21 in the high byte (ST/Micron)
+            # or 0x01 in the high byte — any 0x21xx value is autoselect
+            if (w0 >> 8) == 0x21 or (w0 >> 8) == 0x01 or w0 == w1:
+                print(f"  WARNING: Flash still in autoselect/error state! (0x{w0:04X})")
+                print(f"  Try power cycling the Meggy board (unplug USB, wait, replug).")
             else:
-                print("  Flash is in read mode (not autoselect).")
+                print(f"  Flash is in read mode.")
 
     def get_status(self) -> int:
         status, _ = self._transact(CMD_GET_STATUS)
@@ -546,6 +550,8 @@ Linux udev rule (create /etc/udev/rules.d/99-meggy.rules):
                    help="Image slot: 0=A19 low, 1=A19 high")
     p.add_argument("--reset",  action="store_true",
                    help="Send AMD reset command to flash")
+    p.add_argument("--avr-reset", action="store_true",
+                   help="Trigger AVR watchdog reset (reboots firmware)")
     p.add_argument("--selftest", action="store_true",
                    help="Write/read/verify a known pattern to sector 0 (diagnostic)")
     p.add_argument("--loopback", action="store_true",
@@ -558,7 +564,7 @@ def main():
 
     if not any([args.identify, args.read, args.write,
                 args.verify, args.erase, args.reset, args.loopback,
-                args.selftest, args.read_slot]):
+                args.selftest, args.read_slot, args.avr_reset]):
         print("No action specified.  Use --help for usage.")
         sys.exit(1)
 
@@ -643,6 +649,14 @@ def main():
             dev.flash_reset()
             print("Flash reset issued.")
 
+        if args.avr_reset:
+            print("Sending AVR reset command...")
+            status, _ = dev._transact(CMD_AVR_RESET)
+            if status == STATUS_OK:
+                print("AVR is resetting — reconnect USB in a moment.")
+            else:
+                print(f"AVR reset failed: {STATUS_NAMES.get(status, hex(status))}")
+
         if args.identify:
             print("Reading flash ID...")
             mfr, did = dev.identify()
@@ -674,6 +688,11 @@ def main():
                 else:
                     erase_slot(dev, args.image)
             dev.program(word_addr, data)
+            # Give flash time to fully exit post-program state
+            # before starting verify reads
+            print("  Waiting for flash to settle...")
+            import time as _time; _time.sleep(2)
+            dev.flash_reset(verbose=False)
             if not dev.verify(word_addr, data):
                 print("ERROR: Verification failed!")
                 sys.exit(1)

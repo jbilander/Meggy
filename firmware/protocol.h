@@ -25,6 +25,7 @@
 #define CMD_PROGRAM         0x05
 #define CMD_GET_STATUS      0x06
 #define CMD_FLASH_RESET     0x07
+#define CMD_AVR_RESET       0x08  /* watchdog reset of AVR */
 
 #define STATUS_OK           0x00
 #define STATUS_ERROR        0x01

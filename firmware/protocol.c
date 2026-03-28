@@ -3,6 +3,8 @@
 #include "flash.h"
 #include <LUFA/Drivers/USB/USB.h>
 #include <string.h>
+#include <avr/wdt.h>
+#include <util/delay.h>
 
 /* -----------------------------------------------------------------------
  * CRC-16/CCITT-FALSE  (poly 0x1021, init 0xFFFF, no reflection)
@@ -205,6 +207,7 @@ void protocol_task(void)
 
         case CMD_CHIP_ERASE: {
             if (erase_in_progress) { send_response(STATUS_BUSY,  NULL, 0); break; }
+            oe_buf_isolate();
             flash_chip_erase_start();
             erase_in_progress = true;
             send_response(STATUS_BUSY, NULL, 0);
@@ -213,6 +216,7 @@ void protocol_task(void)
 
         case CMD_SECTOR_ERASE: {
             if (erase_in_progress) { send_response(STATUS_BUSY,  NULL, 0); break; }
+            oe_buf_isolate();
             flash_sector_erase_start(addr);
             erase_in_progress = true;
             send_response(STATUS_BUSY, NULL, 0);
@@ -222,8 +226,10 @@ void protocol_task(void)
         case CMD_PROGRAM: {
             if (erase_in_progress) { send_response(STATUS_BUSY,  NULL, 0); break; }
             if (addr + len > FLASH_SIZE_WORDS) { send_response(STATUS_ERROR, NULL, 0); break; }
+            oe_buf_isolate();
             uint8_t r = flash_program_buffer(addr, word_buf, len);
-            flash_reset();  /* return to read mode after programming */
+            flash_reset();
+            oe_buf_release();
             send_response((r == FLASH_OK) ? STATUS_OK : STATUS_TIMEOUT, NULL, 0);
             break;
         }
@@ -232,10 +238,8 @@ void protocol_task(void)
             if (erase_in_progress) {
                 if (flash_is_ready()) {
                     erase_in_progress = false;
-                    /* Explicitly return flash to read mode after erase.
-                     * Without this the flash stays in erase/status mode
-                     * and returns garbage on the next read. */
                     flash_reset();
+                    oe_buf_release();   /* erase done — return /OE to Gary */
                     send_response(STATUS_OK, NULL, 0);
                 } else {
                     send_response(STATUS_BUSY, NULL, 0);
@@ -248,11 +252,20 @@ void protocol_task(void)
 
         case CMD_FLASH_RESET: {
             erase_in_progress = false;
-            /* Hardware reset first — recovers from any error state */
             flash_hw_reset();
-            /* Read first two words back as diagnostic confirmation */
             flash_read_buffer(0, word_buf, 2);
             send_response(STATUS_OK, (uint8_t *)word_buf, 2);
+            break;
+        }
+
+        case CMD_AVR_RESET: {
+            /* ACK first so host receives confirmation before reset */
+            send_response(STATUS_OK, NULL, 0);
+            flash_bus_release();
+            oe_buf_release();
+            _delay_ms(50);
+            wdt_enable(WDTO_15MS);
+            for (;;);
             break;
         }
 

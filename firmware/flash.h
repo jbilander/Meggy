@@ -47,6 +47,8 @@
 void     flash_init(void);
 void     flash_hw_reset(void);   /* hardware reset via /RST pin */
 void     flash_bus_release(void); /* release bus to high-Z for Amiga */
+void     oe_buf_isolate(void);    /* PE4 low  — tristate OE buffer, AVR controls /OE */
+void     oe_buf_release(void);    /* PE4 input — pull-up re-enables OE buffer for Gary */
 void     flash_reset(void);
 uint32_t flash_read_id(void);           /* returns (MFR<<16)|DEV */
 bool     flash_is_ready(void);          /* polls RY/BY pin       */
