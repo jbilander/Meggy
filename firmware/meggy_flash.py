@@ -647,11 +647,14 @@ def main():
 
         if args.avr_reset:
             print("Sending AVR reset command...")
+            print("  Make sure SW1 (HWB) is held down before continuing.")
             status, _ = dev._transact(CMD_AVR_RESET)
             if status == STATUS_OK:
-                print("AVR is resetting — reconnect USB in a moment.")
+                print("AVR is resetting into DFU mode.")
+                print("Release SW1 once avrdude connects.")
             else:
-                print(f"AVR reset failed: {STATUS_NAMES.get(status, hex(status))}")
+                print("AVR reset command sent (USB drop on reset is normal).")
+                print("If SW1 was held, DFU mode should be active now.")
 
         if args.identify:
             print("Reading flash ID...")

@@ -259,13 +259,26 @@ void protocol_task(void)
         }
 
         case CMD_AVR_RESET: {
-            /* ACK first so host receives confirmation before reset */
+            /* Trigger hardware reset via PE5 → RESET (pin 19 → pin 20 bridged).
+             * HWB (SW1) must be held low by the user before calling this.
+             * Sequence:
+             *   1. User holds HWB (SW1)
+             *   2. Host sends CMD_AVR_RESET
+             *   3. Firmware ACKs, releases bus, then pulls PE5 low
+             *   4. PE5=RESET goes low → AVR resets with HWB held → DFU entry
+             *   5. User releases HWB after DFU is detected by host
+             */
             send_response(STATUS_OK, NULL, 0);
             flash_bus_release();
             oe_buf_release();
-            _delay_ms(50);
-            wdt_enable(WDTO_15MS);
-            for (;;);
+            _delay_ms(50);   /* give USB time to flush ACK */
+            /* Drive PE5 low to assert RESET */
+            DDRE  |=  (1 << PE5);
+            PORTE &= ~(1 << PE5);
+            _delay_ms(10);   /* hold reset low long enough */
+            /* PE5 released — AVR will have reset by now */
+            PORTE |=  (1 << PE5);
+            DDRE  &= ~(1 << PE5);
             break;
         }
 

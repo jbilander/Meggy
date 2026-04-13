@@ -88,5 +88,8 @@ if errorlevel 1 (
 echo.
 echo Build successful: %TARGET%.hex
 echo.
-echo To flash (enter DFU mode first: hold HWB, tap RESET, release HWB):
-echo   flash.bat
+echo To flash:
+echo   1. Hold SW1 (HWB)
+echo   2. Run: python meggy_flash.py --avr-reset
+echo   3. Release SW1 when avrdude connects
+echo   4. Run: flash.bat
