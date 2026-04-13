@@ -13,9 +13,9 @@ Requirements:
 Usage examples:
     python meggy_flash.py --identify
     python meggy_flash.py --read dump.bin
-    python meggy_flash.py --write kickstart.bin --swap --image 0
-    python meggy_flash.py --write diagrom.bin   --swap --image 1
-    python meggy_flash.py --verify kickstart.bin --swap --image 0
+    python meggy_flash.py --write kickstart.bin --swap
+    python meggy_flash.py --write diagrom.bin   --swap
+    python meggy_flash.py --verify kickstart.bin --swap
     python meggy_flash.py --erase
 """
 
@@ -77,7 +77,8 @@ FLASH_BYTES  = 0x200000
 SLOT_WORDS   = 0x080000
 SLOT_BYTES   = 0x100000
 
-EXPECTED_MFR = 0x0020
+EXPECTED_MFR = 0x0020   # ST Microelectronics
+EXPECTED_MFR2 = 0x0001  # Micron (also valid for M29F160FT)
 EXPECTED_DEV = 0x22D2
 
 # M29F160FT sector map: (start_word_addr, size_words)
@@ -466,11 +467,13 @@ def erase_chip(dev: MeggyCom) -> None:
     dev.flash_reset()
     print("Chip erase complete.")
 
-def erase_slot(dev: MeggyCom, slot: int) -> None:
-    # A19 is hardware — use AVR addresses 0x000000-0x07FFFF for both slots.
-    secs = SECTOR_MAP_SLOT1 if slot == 1 else SECTOR_MAP_SLOT0
-    print(f"Erasing {len(secs)} sectors for image slot {slot}...")
-    print(f"  (ensure A19 switch is in slot {slot} position)")
+def erase_current_slot(dev: MeggyCom) -> None:
+    # A19 switch selects the physical slot — firmware always uses 0x000000-0x07FFFF.
+    # Use SECTOR_MAP_SLOT1 (19 sectors including top-boot) to cover all cases.
+    # If A19=low (slot 0), the top-boot sectors still exist at those addresses.
+    secs = SECTOR_MAP_SLOT1
+    print(f"Erasing {len(secs)} sectors...")
+    print(f"  (set A19 switch to desired slot before erasing)")
     for i, (s_addr, s_size) in enumerate(secs):
         print(f"  Sector {i+1}/{len(secs)} addr=0x{s_addr:06X}...", end='', flush=True)
         dev.sector_erase(s_addr)
@@ -484,28 +487,23 @@ def erase_slot(dev: MeggyCom, slot: int) -> None:
             print(f" WARNING: 0x{word:04X} != 0xFFFF - NOT ERASED!")
     print(f"  All {len(secs)} sectors erased.")
 
-def load_image(path: str, swap: bool, slot) -> tuple:
+def load_image(path: str, swap: bool) -> tuple:
+    """Load a ROM image, byteswap if requested, pad to 1MB.
+    Always returns word_addr=0 — the A19 switch selects the physical slot."""
     with open(path, "rb") as f:
         data = f.read()
     print(f"Loaded {len(data):,} bytes from {path}")
     if swap:
         data = byteswap_words(data)
         print("16-bit byte-swap applied.")
-    max_bytes = SLOT_BYTES
-
-    # A19 is controlled by the hardware switch — the firmware always
-    # addresses 0x000000-0x07FFFF regardless of which slot is selected.
-    # word_addr is therefore always 0.
-    word_addr = 0
-
-    if len(data) > max_bytes:
-        print(f"ERROR: Image ({len(data):,} B) exceeds 1 MB slot ({max_bytes:,} B).")
+    if len(data) > SLOT_BYTES:
+        print(f"ERROR: Image ({len(data):,} B) exceeds 1 MB slot ({SLOT_BYTES:,} B).")
         sys.exit(1)
-    if len(data) < max_bytes:
-        pad = max_bytes - len(data)
+    if len(data) < SLOT_BYTES:
+        pad = SLOT_BYTES - len(data)
         print(f"Padding with 0xFF (+{pad:,} bytes).")
         data += b'\xFF' * pad
-    return data, word_addr
+    return data, 0
 
 # ---------------------------------------------------------------------------
 # CLI
@@ -523,9 +521,9 @@ Examples:
   python meggy_flash.py --identify
   python meggy_flash.py --read dump.bin
   python meggy_flash.py --erase
-  python meggy_flash.py --write ks314_1mb.rom --swap --image 0
-  python meggy_flash.py --write diagrom.bin   --swap --image 1
-  python meggy_flash.py --verify ks314_1mb.rom --swap --image 0
+  python meggy_flash.py --write ks314_1mb.rom --swap
+  python meggy_flash.py --write diagrom.bin   --swap
+  python meggy_flash.py --verify ks314_1mb.rom --swap
 
 Linux udev rule (create /etc/udev/rules.d/99-meggy.rules):
   SUBSYSTEM=="usb", ATTR{idVendor}=="03eb", ATTR{idProduct}=="2044", MODE="0666"
@@ -543,11 +541,9 @@ Linux udev rule (create /etc/udev/rules.d/99-meggy.rules):
     p.add_argument("--verify", metavar="FILE",
                    help="Verify flash against FILE (no programming)")
     p.add_argument("--erase",  action="store_true",
-                   help="Full chip erase (or slot erase if --image given)")
+                   help="Erase current slot (set A19 switch to desired slot first)")
     p.add_argument("--swap",   action="store_true",
                    help="16-bit byte-swap FILE before programming/verifying")
-    p.add_argument("--image",  type=int, choices=[0, 1], metavar="N",
-                   help="Image slot: 0=A19 low, 1=A19 high")
     p.add_argument("--reset",  action="store_true",
                    help="Send AMD reset command to flash")
     p.add_argument("--avr-reset", action="store_true",
@@ -661,32 +657,25 @@ def main():
             print("Reading flash ID...")
             mfr, did = dev.identify()
             print(f"  Manufacturer : 0x{mfr:04X}  "
-                  f"({'ST/Micron' if mfr == EXPECTED_MFR else 'UNKNOWN'})")
+                  f"({'ST/Micron' if mfr in (EXPECTED_MFR, EXPECTED_MFR2) else 'UNKNOWN'})")
             print(f"  Device       : 0x{did:04X}  "
                   f"({'M29F160FT (top-boot)' if did == EXPECTED_DEV else 'UNKNOWN'})")
-            if did == EXPECTED_DEV and mfr != EXPECTED_MFR:
+            if did == EXPECTED_DEV and mfr not in (EXPECTED_MFR, EXPECTED_MFR2):
                 print(f"  NOTE: Device ID is correct (M29F160FT confirmed).")
-                print(f"  Manufacturer ID mismatch — likely a cold solder joint")
-                print(f"  on flash D5 (PC5). Programming will still work.")
-            elif mfr != EXPECTED_MFR or did != EXPECTED_DEV:
+                print(f"  Manufacturer ID mismatch — programming will still work.")
+            elif mfr not in (EXPECTED_MFR, EXPECTED_MFR2) or did != EXPECTED_DEV:
                 print("  WARNING: IDs do not match M29F160FT55N3E2.")
 
         if args.erase:
-            if args.image is None:
-                erase_chip(dev)
-            else:
-                erase_slot(dev, args.image)
+            erase_current_slot(dev)
 
         if args.write:
             if not os.path.isfile(args.write):
                 print(f"ERROR: File not found: {args.write}")
                 sys.exit(1)
-            data, word_addr = load_image(args.write, args.swap, args.image)
+            data, word_addr = load_image(args.write, args.swap)
             if not args.erase:
-                if args.image is None:
-                    erase_chip(dev)
-                else:
-                    erase_slot(dev, args.image)
+                erase_current_slot(dev)
             dev.program(word_addr, data)
             # Give flash time to fully exit post-program state
             # before starting verify reads
@@ -714,14 +703,13 @@ def main():
             print(f"Saved {len(raw):,} bytes to {args.read_slot}")
             print()
             print("To verify against your original ROM file:")
-            print("  python meggy_flash.py --verify <romfile> --swap --image 0")
-            print("  (--image 0 targets word addr 0 regardless of switch position)")
+            print("  python meggy_flash.py --verify <romfile> --swap")
 
         if args.verify and not args.write:
             if not os.path.isfile(args.verify):
                 print(f"ERROR: File not found: {args.verify}")
                 sys.exit(1)
-            data, word_addr = load_image(args.verify, args.swap, args.image)
+            data, word_addr = load_image(args.verify, args.swap)
             ok = dev.verify(word_addr, data)
             sys.exit(0 if ok else 1)
 
