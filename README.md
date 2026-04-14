@@ -24,7 +24,7 @@ A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, U
 | U4 | 1 | 74AHCT1G126GW | Single tristate buffer | SC-70-5 / SOT-353 | <span title="Isolates Gary's /OE signal from the flash chip during USB programming. 10k pull-up on EN keeps buffer enabled by default even with no firmware loaded.">OE isolation...</span> | [771-AHCT1G126GW125](https://www.mouser.com/ProductDetail/771-AHCT1G126GW125) |
 | D1, D2 | 2 | CDBU0520 | Schottky diode 0.5A 20V | SOD-523F / 0603 | <span title="Diode-OR between VBUS (USB 5V) and VCC (Amiga 5V). Prevents backfeed between the two supplies. Higher voltage wins.">Power OR...</span> | [750-CDBU0520](https://www.mouser.com/ProductDetail/750-CDBU0520) |
 | X1 | 1 | 16 MHz | Crystal oscillator SG5032CCN 16.000000M-HJGA3 | 5×3.2mm SMD | | [732-5032CC16.0HJGA3](https://www.mouser.com/ProductDetail/732-5032CC16.0HJGA3) |
-| SW1 | 1 | — | Sunrom Tactile Switch SMD | 3×4×2mm | <span title="Hold SW1 (HWB) and run --avr-reset, to enter DFU bootloader mode for firmware programming.">HWB / DFU entry...</span> | [AliExpress example](https://www.aliexpress.com/item/32855171871.html) |
+| SW1 | 1 | — | Sunrom Tactile Switch SMD | 3×4×2mm | <span title="Hold HWB button and run --avr-reset to enter DFU bootloader mode for firmware programming.">HWB / DFU entry...</span> | [AliExpress example](https://www.aliexpress.com/item/32855171871.html) |
 | J1 | 1 | 10118194-0001LF | Micro USB-B connector, Amphenol FCI, 5-pin | SMD | | [649-10118194-0001LF](https://www.mouser.com/ProductDetail/649-10118194-0001LF) |
 | J2 | 1 | MSK12D19 | SMD slide switch, 3-pin, 2.5mm pitch | SMD | <span title="Flash A19 select — open = slot 1 (pull-up), shorted to GND = slot 0. Pins bent to right angle for flush mounting. Alternatively a 3-pin 2.54mm right-angle pin header with external toggle switch.">Flash A19 slot select...</span> | [AliExpress example](https://www.aliexpress.com/item/1005006482584650.html) |
 | RN1, RN2 | 2 | 10k | Resistor network 4×10kΩ isolated | 0603×4 (1206) | CAY16-103J4LF | [652-CAY16-103J4LF](https://www.mouser.com/ProductDetail/652-CAY16-103J4LF) |
@@ -66,7 +66,7 @@ The reason for starting with a 1.27 mm strip rather than a conventional 2.54 mm 
 **Steps:**
 1. Take a 1×50 pin strip with 1.27 mm pitch (square pins, 0.4 mm across).
 2. Count off 41 pins and snap or cut to length.
-3. Starting from pin 2, pull out every other pin with pliers, leaving pins 1, 3, 5 … 41 — 21 pins total at 2.54 mm pitch.
+3. Starting from pin 2, pull out every other pin with pliers, leaving pins 1, 3, 5 ... 41 — 21 pins total at 2.54 mm pitch.
 4. Repeat for the second row.
 5. Insert the strips through the PCB from the bottom (component side) and solder from the top.
 
@@ -78,7 +78,7 @@ Meggy uses two distinct USB personalities:
 
 | Mode | USB ID | When active | Driver needed |
 |------|--------|-------------|---------------|
-| **DFU bootloader** | 03EB:2FFB | Hold SW1 during power-up | libusb-win32 (via Zadig) |
+| **DFU bootloader** | 03EB:2FFB | No firmware, or HWB held during power-up | libusb-win32 (via Zadig) |
 | **Flash programmer** | 03EB:2044 | Normal firmware operation | WinUSB (via Zadig) |
 
 Both drivers are installed with [Zadig](https://zadig.akeo.ie). The steps below cover the full setup from a fresh Windows machine.
@@ -130,9 +130,10 @@ Download [Zadig](https://zadig.akeo.ie) (a single portable `.exe`, no installati
 This driver is used when Meggy is in DFU bootloader mode for **firmware** programming.
 
 **Put Meggy into DFU mode:**
-1. Hold HWB button on the board.
-2. Plug in the USB cable (or disconnect USB and Amiga power, then reconnect).
-3. Release HWB.
+
+A freshly soldered board with no firmware loaded will enter DFU mode automatically on power-up — just plug in the USB cable and the device enumerates as **AT90USB128 DFU** without any button press needed.
+
+If firmware is already installed, hold the HWB button and run `python meggy_flash.py --avr-reset` (see the Firmware Programming section below).
 
 Windows will detect a new device. Without the driver it appears as **AT90USB128 DFU** under *Other devices* in Device Manager with a warning icon.
 
@@ -187,17 +188,31 @@ The AT90USB1286 ships with a USB DFU bootloader burned into the hardware boot se
 
 ## Entering DFU Mode
 
-**Preferred method** (firmware already running, Rev C with PE5→RESET bridge):
-1. Hold HWB.
+A freshly soldered board with no firmware loaded will enter DFU mode automatically on power-up — just plug in USB and it enumerates as **AT90USB128 DFU** (USB ID `03EB:2FFB`) without any button press needed.
+
+If firmware is already installed:
+
+**Preferred method** (firmware running):
+1. Hold the HWB button.
 2. Run `python meggy_flash.py --avr-reset`
 3. Release HWB once avrdude connects.
 
-**Alternative method** (first time, or if firmware is not running):
-1. Hold HWB
-2. Disconnect USB and Amiga power, then reconnect USB.
-3. Release HWB.
+The `--avr-reset` command triggers a hardware reset via the PE5→RESET connection, which causes the bootloader to check HWB and enter DFU mode. This is the only way to enter DFU mode when firmware is already running on Rev C.
 
-The board will enumerate as **AT90USB128 DFU** (USB ID `03EB:2FFB`).
+## Building the Firmware
+
+From the `firmware/` folder, run:
+
+```bat
+build.bat
+```
+
+This compiles the firmware and produces `meggy_firmware.hex`. LUFA must be cloned into the `firmware/LUFA/` subfolder first:
+
+```bat
+cd firmware
+git clone https://github.com/abcminiuser/lufa LUFA
+```
 
 ## Flashing the Firmware (Windows)
 
@@ -223,7 +238,7 @@ dfu-programmer at90usb1286 flash meggy_firmware.hex
 dfu-programmer at90usb1286 start
 ```
 
-After flashing, power cycle the board. Meggy will enumerate as **Meggy Flash Programmer** (USB ID `03EB:2044`), ready for NOR flash programming.
+The `start` command reboots the AVR automatically into firmware mode. Meggy will enumerate as **Meggy Flash Programmer** (USB ID `03EB:2044`), ready for NOR flash programming.
 
 ***
 
@@ -254,7 +269,7 @@ python meggy_flash.py --verify kick31.rom
 # Erase the current slot
 python meggy_flash.py --erase
 
-# Reset the AVR into DFU mode (press down and hold HWB button while executing command below)
+# Reset the AVR into DFU mode (hold HWB button while executing this command)
 python meggy_flash.py --avr-reset
 ```
 
