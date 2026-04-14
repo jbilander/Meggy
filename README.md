@@ -4,19 +4,13 @@ A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, U
 ***
 
 <a href="images/Meggy_revA_pic1.png">
-<img src="images/Meggy_revA_pic1.png" width="488" height="216">
+<img src="images/Meggy_revA_pic1.png" width="500" height="286">
 </a>
 <br />
 <a href="images/Meggy_revA_pic2.png">
-<img src="images/Meggy_revA_pic2.png" width="488" height="216">
+<img src="images/Meggy_revA_pic2.png" width="500" height="266">
 </a>
 <br />
-<a href="images/Meggy_revA_pic3.png">
-<img src="images/Meggy_revA_pic3.png" width="240" height="600">
-</a>
-<a href="images/Meggy_revA_pic4.png">
-<img src="images/Meggy_revA_pic4.png" width="241" height="600">
-</a>
 
 
 ***
