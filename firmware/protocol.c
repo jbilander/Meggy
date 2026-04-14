@@ -3,7 +3,6 @@
 #include "flash.h"
 #include <LUFA/Drivers/USB/USB.h>
 #include <string.h>
-#include <avr/wdt.h>
 #include <util/delay.h>
 
 /* -----------------------------------------------------------------------
@@ -259,14 +258,16 @@ void protocol_task(void)
         }
 
         case CMD_AVR_RESET: {
-            /* Trigger hardware reset via PE5 → RESET (pin 19 → pin 20 bridged).
-             * HWB (SW1) must be held low by the user before calling this.
+            /* Trigger hardware reset via PE5 → /RESET.
+             * PE5 is connected to the AVR /RESET pin on the PCB.
+             * The HWB button must be held by the user before this is called
+             * so that the bootloader enters DFU mode on the rising edge of reset.
              * Sequence:
-             *   1. User holds HWB (SW1)
+             *   1. User holds HWB button
              *   2. Host sends CMD_AVR_RESET
-             *   3. Firmware ACKs, releases bus, then pulls PE5 low
-             *   4. PE5=RESET goes low → AVR resets with HWB held → DFU entry
-             *   5. User releases HWB after DFU is detected by host
+             *   3. Firmware ACKs, releases bus, pulls PE5 low
+             *   4. AVR resets with HWB held → DFU entry
+             *   5. User releases HWB after DFU enumerates on host
              */
             send_response(STATUS_OK, NULL, 0);
             flash_bus_release();

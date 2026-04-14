@@ -3,26 +3,27 @@
 #include <avr/interrupt.h>
 
 /* -----------------------------------------------------------------------
- * Pin mapping — Rev A bodge / Rev B native:
+ * Pin mapping:
  *
- *   D0-D7   = PC0-PC7   (unchanged)
- *   D8-D15  = PB0-PB7   (unchanged)
- *   A0-A7   = PA0-PA7   (unchanged)
- *   A8-A15  = PD0-PD7   (unchanged)
- *   A16     = PF0       (bodge from PF5)
- *   A17     = PF1       (bodge from PF6)
- *   A18     = PF2       (bodge from PF7)
- *   /OE     = PF3       (unchanged)
- *   RY/BY   = PE3       (bodge from PF4)
- *   /WE     = PE0       (unchanged)
- *   /RST    = PE1       (unchanged)
- *   HWB     = PE2       (unchanged, DFU bootloader button)
- *   /CE     = GND       (always asserted)
- *   /BYTE   = VCC       (word mode, 16-bit)
+ *   D0-D7   = PC0-PC7
+ *   D8-D15  = PB0-PB7
+ *   A0-A7   = PA0-PA7
+ *   A8-A15  = PD0-PD7
+ *   A16     = PF0
+ *   A17     = PF1
+ *   A18     = PF2
+ *   /OE     = PF3
+ *   RY/BY   = PE3
+ *   /WE     = PE0
+ *   /RST    = PE1
+ *   HWB     = PE2  (DFU bootloader button, input only)
+ *   PE5     = RESET (connected to AVR /RESET pin for software DFU entry)
+ *   OE_BUF_EN = PE4 (74AHCT1G126GW enable, 10k pull-up — default enabled)
+ *   /CE     = GND  (always asserted)
+ *   /BYTE   = VCC  (word mode, 16-bit)
  *
- * PF4-PF7 are now unused — JTAG may remain active on them harmlessly
- * since nothing is connected to those pins in the bodged/Rev B layout.
- * No JTD / JTAG-disable code is needed.
+ * PF4-PF7 are unused. JTAG may remain active on them harmlessly
+ * since nothing is connected to those pins.
  * ----------------------------------------------------------------------- */
 
 /* /WE on PE0 */
@@ -107,7 +108,7 @@ static void flash_cmd(uint32_t word_addr, uint16_t cmd)
     data_bus_output();
     OE_HIGH();
     set_address(word_addr);
-    _delay_us(2);   /* address settling — bodge wire margin */
+    _delay_us(2);   /* address settling — allow signals to stabilise before /WE */
     write_data(cmd);
     /* Disable interrupts around /WE pulse so a USB interrupt cannot
      * extend the pulse duration and corrupt the command. */
@@ -154,8 +155,7 @@ static uint8_t wait_ready(uint32_t timeout_us)
  * Pull-up keeps buffer ENABLED by default (Amiga in control of /OE).
  * Driving PE4 low tristates the buffer, giving AVR sole control of /OE.
  *
- * NOTE: These functions are no-ops on Rev A which lacks PE4 routing.
- *       On Rev B PE4 is connected to the buffer enable pin.
+ * PE4 is connected to the 74AHCT1G126GW enable pin.
  * ----------------------------------------------------------------------- */
 void oe_buf_isolate(void)
 {
@@ -226,34 +226,12 @@ void flash_init(void)
     DDRF  = 0x0F;
     PORTF = (1 << PF3);     /* /OE high, A16-A18 = 0, no pull-ups on PF4-7 */
 
-    /*
-     * PORTE:
-     *   PE0 = /WE  — output, start high (deasserted)
-     *   PE1 = /RST — output, start high (deasserted)
-     *   PE2 = HWB  — leave as input (DFU bootloader)
-     *   PE3 = RY/BY — input (external 10k pull-up on flash pin)
-     *   PE4-PE7 = unused, leave as inputs
-     *
-     * Only set PE0 and PE1 as outputs; preserve all other DDRE bits.
-     */
-    /* Set DDRE completely explicitly — do not rely on reset state.
-     * PE0=/WE and PE1=/RST are outputs.
-     * PE2=HWB, PE3=RY/BY, PE4-PE7 are inputs.
-     * Write PORT before DDR to avoid a glitch where the pin momentarily
-     * outputs 0 before being driven high. */
+    /* Set DDRE explicitly — do not rely on reset state.
+     * Write PORT before DDR to avoid a brief low glitch on outputs. */
     PORTE = (PORTE & ~((1<<PE4)|(1<<PE5)|(1<<PE6)|(1<<PE7)))
           | (1 << PE0)   /* /WE  high */
           | (1 << PE1);  /* /RST high */
     DDRE  = (1 << PE0) | (1 << PE1);  /* only PE0 and PE1 as outputs */
-
-    /* ---- /WE pin sanity check ---- */
-    /* Drive /WE low and verify PINE reads it back low.
-     * If this fails the PE0 driver is broken and no writes will work. */
-    PORTE &= ~(1 << PE0);   /* /WE low  */
-    _delay_us(1);
-    /* (Cannot easily report failure here — stored in a global for later) */
-    PORTE |=  (1 << PE0);   /* /WE high */
-    _delay_us(1);
 
     /* ---- Data bus: high-Z initially ---- */
     data_bus_input();
@@ -320,8 +298,8 @@ uint32_t flash_read_id(void)
     return ((uint32_t)mfr << 16) | dev;
     /*
      * Expected for M29F160FT55N3E2:
-     *   Manufacturer = 0x0020  (ST/Micron)
-     *   Device       = 0x22D2  (M29F160FT top-boot, word mode)
+     *   Manufacturer = 0x0001 or 0x0020  (Micron / ST)
+     *   Device       = 0x22D2            (M29F160FT top-boot, word mode)
      */
 }
 
@@ -389,8 +367,7 @@ uint8_t flash_program_buffer(uint32_t word_addr,
         flash_cmd(0x555UL, 0x00A0);
         flash_cmd(word_addr + i, buf[i]);
 
-        /* 5000 µs timeout — well above 200 µs datasheet max,
-         * gives extra margin for bodge wire timing issues.    */
+        /* 5000 µs timeout — well above 200 µs datasheet max. */
         uint8_t r = wait_ready(5000);
         if (r != FLASH_OK) {
             flash_reset();
