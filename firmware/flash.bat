@@ -24,9 +24,9 @@ if errorlevel 1 (
     echo.
     echo FLASH FAILED.
     echo Make sure the device is in DFU mode:
-    echo   1. Hold SW1 ^(HWB^)
+    echo   1. Hold the HWB button
     echo   2. Run: python meggy_flash.py --avr-reset
-    echo   3. Release SW1 when avrdude connects
+    echo   3. Release HWB when avrdude connects
     del "%LOGFILE%" >nul 2>&1
     exit /b 1
 )
@@ -39,7 +39,7 @@ echo   - Standalone: unplug and replug USB
 echo   - Installed in Amiga: disconnect USB and power off Amiga, then reconnect
 echo.
 echo To enter DFU mode for next update:
-echo   1. Hold SW1 ^(HWB^)
+echo   1. Hold the HWB button
 echo   2. Run: python meggy_flash.py --avr-reset
-echo   3. Release SW1 when avrdude connects
+echo   3. Release HWB when avrdude connects
 echo   4. Run: flash.bat
