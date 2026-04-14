@@ -14,7 +14,7 @@ A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, U
 
 ***
 
-# Bill of Materials — Meggy Rev B
+# Bill of Materials — Meggy Rev C
 
 | Ref | Qty | Value | Description | Package | Notes | Mouser |
 |-----|-----|-------|-------------|---------|-------|--------|
@@ -24,7 +24,7 @@ A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, U
 | U4 | 1 | 74AHCT1G126GW | Single tristate buffer | SC-70-5 / SOT-353 | <span title="Isolates Gary's /OE signal from the flash chip during USB programming. 10k pull-up on EN keeps buffer enabled by default even with no firmware loaded.">OE isolation...</span> | [771-AHCT1G126GW125](https://www.mouser.com/ProductDetail/771-AHCT1G126GW125) |
 | D1, D2 | 2 | CDBU0520 | Schottky diode 0.5A 20V | SOD-523F / 0603 | <span title="Diode-OR between VBUS (USB 5V) and VCC (Amiga 5V). Prevents backfeed between the two supplies. Higher voltage wins.">Power OR...</span> | [750-CDBU0520](https://www.mouser.com/ProductDetail/750-CDBU0520) |
 | X1 | 1 | 16 MHz | Crystal oscillator SG5032CCN 16.000000M-HJGA3 | 5×3.2mm SMD | | [732-5032CC16.0HJGA3](https://www.mouser.com/ProductDetail/732-5032CC16.0HJGA3) |
-| SW1 | 1 | — | Sunrom Tactile Switch SMD | 3×4×2mm | <span title="Hold SW1 (HWB) and run --avr-reset, or hold SW1 and power cycle, to enter DFU bootloader mode for firmware programming.">HWB / DFU entry...</span> | [AliExpress example](https://www.aliexpress.com/item/32855171871.html) |
+| SW1 | 1 | — | Sunrom Tactile Switch SMD | 3×4×2mm | <span title="Hold SW1 (HWB) and run --avr-reset, to enter DFU bootloader mode for firmware programming.">HWB / DFU entry...</span> | [AliExpress example](https://www.aliexpress.com/item/32855171871.html) |
 | J1 | 1 | 10118194-0001LF | Micro USB-B connector, Amphenol FCI, 5-pin | SMD | | [649-10118194-0001LF](https://www.mouser.com/ProductDetail/649-10118194-0001LF) |
 | J2 | 1 | MSK12D19 | SMD slide switch, 3-pin, 2.5mm pitch | SMD | <span title="Flash A19 select — open = slot 1 (pull-up), shorted to GND = slot 0. Pins bent to right angle for flush mounting. Alternatively a 3-pin 2.54mm right-angle pin header with external toggle switch.">Flash A19 slot select...</span> | [AliExpress example](https://www.aliexpress.com/item/1005006482584650.html) |
 | RN1, RN2 | 2 | 10k | Resistor network 4×10kΩ isolated | 0603×4 (1206) | CAY16-103J4LF | [652-CAY16-103J4LF](https://www.mouser.com/ProductDetail/652-CAY16-103J4LF) |
@@ -130,9 +130,9 @@ Download [Zadig](https://zadig.akeo.ie) (a single portable `.exe`, no installati
 This driver is used when Meggy is in DFU bootloader mode for **firmware** programming.
 
 **Put Meggy into DFU mode:**
-1. Hold **SW1** (HWB button on the board).
+1. Hold HWB button on the board.
 2. Plug in the USB cable (or disconnect USB and Amiga power, then reconnect).
-3. Release **SW1**.
+3. Release HWB.
 
 Windows will detect a new device. Without the driver it appears as **AT90USB128 DFU** under *Other devices* in Device Manager with a warning icon.
 
@@ -160,7 +160,7 @@ Device Manager now shows **AT90USB128 DFU** under *libusb-win32 devices* — no 
 
 This driver is used during normal operation when Meggy presents itself as the **Meggy Flash Programmer** for **NOR flash** programming.
 
-Unplug Meggy and plug it back in without holding SW1 so it boots into normal firmware mode. Windows detects it as **Meggy Flash Programmer** under *Other devices*. If you try to install the driver via Windows Update or Device Manager directly, Windows will refuse because the INF lacks a digital signature.
+Unplug Meggy and plug it back in without holding HWB so it boots into normal firmware mode. Windows detects it as **Meggy Flash Programmer** under *Other devices*. If you try to install the driver via Windows Update or Device Manager directly, Windows will refuse because the INF lacks a digital signature.
 
 ![Meggy Flash Programmer — no signed driver error](images/Meggy_no_signed_device_driver.jpg)
 ![Windows driver signature error dialog](images/Meggy_no_signed_device_driver_pic2.jpg)
@@ -187,15 +187,15 @@ The AT90USB1286 ships with a USB DFU bootloader burned into the hardware boot se
 
 ## Entering DFU Mode
 
-**Preferred method** (firmware already running, Rev C and Rev B with PE5→RESET bridge):
-1. Hold **SW1** (HWB).
+**Preferred method** (firmware already running, Rev C with PE5→RESET bridge):
+1. Hold HWB.
 2. Run `python meggy_flash.py --avr-reset`
-3. Release **SW1** once avrdude connects.
+3. Release HWB once avrdude connects.
 
 **Alternative method** (first time, or if firmware is not running):
-1. Hold **SW1** (HWB).
+1. Hold HWB
 2. Disconnect USB and Amiga power, then reconnect USB.
-3. Release **SW1**.
+3. Release HWB.
 
 The board will enumerate as **AT90USB128 DFU** (USB ID `03EB:2FFB`).
 
