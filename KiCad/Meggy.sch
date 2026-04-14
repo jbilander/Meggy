@@ -731,8 +731,6 @@ Text Label 7900 2450 0    50   ~ 0
 A19_(NC)
 Text Label 2550 3150 2    50   ~ 0
 AREF_(NC)
-Text Label 2550 4850 2    50   ~ 0
-PE5_(NC)
 Text Label 2550 4950 2    50   ~ 0
 PE6_(NC)
 Text Label 2550 5050 2    50   ~ 0
@@ -815,4 +813,6 @@ Text GLabel 3000 1300 0    50   Input ~ 0
 VCC
 Text GLabel 3300 1300 2    50   Output ~ 0
 BOARD_5V
+Text GLabel 2550 4850 0    50   Output ~ 0
+RESET
 $EndSCHEMATC
