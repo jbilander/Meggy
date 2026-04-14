@@ -83,6 +83,11 @@ Meggy uses two distinct USB personalities:
 
 Both drivers are installed with [Zadig](https://zadig.akeo.ie). The steps below cover the full setup from a fresh Windows machine.
 
+## Prerequisites
+
+- **Arduino IDE 1.8.x** — provides `avrdude.exe` used by `flash.bat` to program the AVR firmware. Tested with Arduino IDE 1.8.16. Newer versions of Arduino IDE (2.x) install avrdude in a different location and may require editing the `AVR_PATH` variable in `build.bat` and `flash.bat`. Download from [arduino.cc](https://www.arduino.cc/en/software).
+- **Python 3.x** — required for `meggy_flash.py` (see Step 1 below).
+
 ---
 
 ## Step 1 — Install Python
