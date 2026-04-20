@@ -107,7 +107,7 @@ The AT90USB1286-MU QFN-64 has a large exposed thermal pad on the underside that 
 
 **USB connector through-hole anchor pins:**
 1. Apply flux on both sides of the PCB at each anchor pin hole.
-2. Solder from one side — applying flux to the opposite side encourages a clean bleed-through joint, giving a solid mechanical and electrical connection.
+2. Solder from one side — applying flux to the opposite side encourages a clean bleed-through joint, giving a solid mechanical connection.
 
 ***
 
