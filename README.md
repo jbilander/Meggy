@@ -327,15 +327,15 @@ The diode-OR power circuit was measured with a multimeter to verify correct oper
 
 **USB VBUS and Schottky drop — Amiga off, USB plugged:**
 
-<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg" width="256" height="192"></a>
-<a href="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level from_usb_after_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level from_usb_after_schottky_amiga_off.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg" width="256" height="192"></a>
 
 Left to right: **5.103V** raw USB VBUS before D2 — **4.85V** on BOARD_5V after D2 (~250mV Schottky drop) — **0.9mV** on Amiga VCC rail, effectively zero. D1 correctly blocks backfeed from BOARD_5V into the unpowered Amiga.
 
 **Amiga powered on — USB plugged and unplugged:**
 
-<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg" width="256" height="192"></a>
 
