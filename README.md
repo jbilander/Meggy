@@ -11,6 +11,18 @@ A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, U
 <img src="images/Meggy_revC_pic2.png" width="500" height="266">
 </a>
 <br />
+<a href="images/Meggy_revC_pic3.jpg">
+<img src="images/Meggy_revC_pic3.jpg" width="500" height="375">
+</a>
+<br />
+<a href="images/Meggy_revC_pic4.jpg">
+<img src="images/Meggy_revC_pic4.jpg" width="500" height="375">
+</a>
+<br />
+<a href="images/Meggy_revC_installed_in_A500_plus.jpg">
+<img src="images/Meggy_revC_installed_in_A500_plus.jpg" width="500" height="375">
+</a>
+<br />
 
 ***
 
@@ -69,6 +81,33 @@ The reason for starting with a 1.27 mm strip rather than a conventional 2.54 mm 
 3. Starting from pin 2, pull out every other pin with pliers, leaving pins 1, 3, 5 ... 41 — 21 pins total at 2.54 mm pitch.
 4. Repeat for the second row.
 5. Insert the strips through the PCB from the bottom (component side) and solder from the top.
+
+## J2 Slide Switch (MSK12D19) — Bending and Soldering
+
+The MSK12D19 is an SMD slide switch soldered flat on the PCB with its pins bent over and soldered from the top side. To change the Kickstart slot the Amiga needs to be opened. Alternatively J2 can be fitted with a 3-pin 2.54mm right-angle pin header and wired to an external toggle switch mounted somewhere accessible on the Amiga case.
+
+<a href="images/Meggy_revC_bend_switch_and_solder_pic1.jpg"><img src="images/Meggy_revC_bend_switch_and_solder_pic1.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_bend_switch_and_solder_pic2.jpg"><img src="images/Meggy_revC_bend_switch_and_solder_pic2.jpg" width="256" height="192"></a>
+
+**Steps:**
+1. Place the switch into the J2 footprint so the three pins protrude slightly through the top side of the PCB.
+2. With your fingers, bend all three pins over flat against the top surface so the switch body ends up level with the board.
+3. Apply flux and solder the three pins from the top side with a regular soldering iron.
+
+## AVR Exposed Pad and USB Connector — Soldering Technique
+
+The AT90USB1286-MU QFN-64 has a large exposed thermal pad on the underside that must be soldered to the GND pour for reliable operation. The Micro USB connector also has through-hole anchor pins. Both benefit from using a desoldering station with good thermal mass — a ZD915 or similar works well for this.
+
+<a href="images/Meggy_revC_exposed_pad_soldering_pic1.jpg"><img src="images/Meggy_revC_exposed_pad_soldering_pic1.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_exposed_pad_soldering_pic2.jpg"><img src="images/Meggy_revC_exposed_pad_soldering_pic2.jpg" width="256" height="192"></a>
+
+**AVR exposed pad:**
+1. Apply flux into the PCB via hole that sits directly under the exposed pad.
+2. Place the desoldering nozzle against the hole from the underside and feed solder wire into the nozzle, holding for 3–4 seconds. The thermal mass of the station heats the via quickly and the solder wicks up through the hole making solid contact with the exposed pad above.
+
+**USB connector through-hole anchor pins:**
+1. Apply flux on both sides of the PCB at each anchor pin hole.
+2. Solder from one side — applying flux to the opposite side encourages a clean bleed-through joint, giving a solid mechanical and electrical connection.
 
 ***
 
@@ -279,6 +318,28 @@ python meggy_flash.py --erase
 # Reset the AVR into DFU mode (hold HWB button while executing this command)
 python meggy_flash.py --avr-reset
 ```
+
+***
+
+# Power Supply Measurements
+
+The diode-OR power circuit was measured with a multimeter to verify correct operation. All measurements taken with Meggy Rev C installed in the Amiga. Click any image for full size.
+
+**USB VBUS and Schottky drop — Amiga off, USB plugged:**
+
+<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg" width="256" height="192"></a>
+
+Left to right: **5.103V** raw USB VBUS before D2 — **4.85V** on BOARD_5V after D2 (~250mV Schottky drop) — **0.9mV** on Amiga VCC rail, effectively zero. D1 correctly blocks backfeed from BOARD_5V into the unpowered Amiga.
+
+**Amiga powered on — USB plugged and unplugged:**
+
+<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg" width="256" height="192"></a>
+
+Left to right: **5.103V** VBUS before Schottky with Amiga on and USB plugged — **4.888V** on BOARD_5V with Amiga on and USB plugged — **4.885V** on BOARD_5V with Amiga on and USB unplugged. The diode-OR selects the higher of the two supplies; with only Amiga VCC present the board runs stably at 4.885V.
 
 ***
 
