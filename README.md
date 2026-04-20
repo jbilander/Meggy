@@ -253,6 +253,8 @@ With the firmware running and the WinUSB driver installed, use `meggy_flash.py` 
 
 **Important:** set the J2 switch to the desired slot **before** running any programming commands. The physical switch position determines which 1MB half of the flash chip is accessed — the software always programs whichever slot the switch currently selects.
 
+**Power note:** if Meggy is installed in the Amiga, the Amiga should be powered on during programming. When the Amiga is powered off but Meggy is still seated in the ROM socket, the unpowered chips on the Amiga motherboard (CPU, Gary, RAM) can draw current through their protection diodes from Meggy's bus lines, loading the supply voltage during the high-current programming pulses and causing timeouts. Programming works correctly either standalone (not installed in the Amiga) or with the Amiga powered on.
+
 ## Quick-start
 
 ```sh
@@ -263,7 +265,7 @@ python meggy_flash.py --identify
 python meggy_flash.py --write kick31.rom
 
 # Write a Kickstart image with 16-bit byte-swap applied (for unswapped ROM files)
-python meggy_flash.py --write --swap kick31.rom
+python meggy_flash.py --write kick31.rom --swap
 
 # Read back the current slot for verification
 python meggy_flash.py --read-slot readback.bin
