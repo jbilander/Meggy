@@ -157,7 +157,7 @@ If you run `meggy_flash.py` before installing PyUSB you will see the reminder me
 
 PyUSB on Windows requires `libusb-1.0.dll` to be present. Download the latest libusb release from [libusb.info](https://libusb.info), open the archive with 7-Zip or similar, and copy `libusb-1.0.dll` from the `VS2015\MS64\dll\` folder into `C:\Windows\System32`.
 
-![Copy libusb-1.0.dll to C:\Windows\System32](images/Copy_libusb_1_0_dll.jpg)
+![Copy libusb-1.0.dll to C:\Windows\System32](images/Copy_libusb_1.0_dll.jpg)
 
 ---
 
@@ -185,19 +185,19 @@ Windows will detect a new device. Without the driver it appears as **AT90USB128 
 
 Open Zadig. The device **AT90USB128 DFU** (USB ID `03EB 2FFB`) should appear in the dropdown. Make sure the target driver on the right is set to **libusb-win32**, then click **Install Driver**.
 
-![Zadig — select libusb-win32 for AT90USB128 DFU](images/Zadig_libusbwin32_driver_at90usb1286.jpg)
+![Zadig — installing driver progress bar](images/Install_Zadig_pic2.jpg)
 
 Zadig installs the driver (this takes a few seconds).
 
-![Zadig — installing driver progress bar](images/Install_Zadig_pic2.jpg)
+![Zadig — driver installed successfully](images/Install_Zadig_pic3.jpg)
 
 When complete, Zadig reports **"The driver was installed successfully."**
 
-![Zadig — driver installed successfully](images/Install_Zadig_pic3.jpg)
+![Device Manager — AT90USB128 DFU under libusb-win32 devices](images/Install_Zadig_pic4.jpg)
 
 Device Manager now shows **AT90USB128 DFU** under *libusb-win32 devices* — no warning icon.
 
-![Device Manager — AT90USB128 DFU under libusb-win32 devices](images/Install_Zadig_pic4.jpg)
+![Zadig — select libusb-win32 for AT90USB128 DFU](images/Zadig_libusb-win32_driver_at90usb1286.jpg)
 
 ---
 
