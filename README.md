@@ -82,6 +82,8 @@ The reason for starting with a 1.27 mm strip rather than a conventional 2.54 mm 
 4. Repeat for the second row.
 5. Insert the strips through the PCB from the bottom (component side) and solder from the top.
 
+**Tip — plastic guard orientation:** Consider inserting the pin strips with the plastic guard facing away from the PCB (towards the pin tips) rather than flush against the board. If you ever need to remove the guards later — for example when fitting Meggy into a single-wipe socket where the extra height prevents the board from seating fully — they can simply be slid off by hand. If the guard is trapped against the PCB you have to pry it away with a blade first, which is fiddly and risks damage. The trade-off is that you need to hold each strip at the correct insertion depth while tacking it in place, since the guard can no longer rest against the PCB as a natural stop.
+
 ## J2 Slide Switch (MSK12D19) — Bending and Soldering
 
 The MSK12D19 is an SMD slide switch soldered flat on the PCB with its pins bent over and soldered from the top side. To change the Kickstart slot the Amiga needs to be opened. Alternatively J2 can be fitted with a 3-pin 2.54mm right-angle pin header and wired to an external toggle switch mounted somewhere accessible on the Amiga case.
