@@ -292,7 +292,11 @@ With the firmware running and the WinUSB driver installed, use `meggy_flash.py` 
 
 **Important:** set the J2 switch to the desired slot **before** running any programming commands. The physical switch position determines which 1MB half of the flash chip is accessed — the software always programs whichever slot the switch currently selects.
 
-**Power note:** if Meggy is installed in the Amiga, the Amiga should be powered on during programming. When the Amiga is powered off but Meggy is still seated in the ROM socket, the unpowered chips on the Amiga motherboard (CPU, Gary, RAM) can draw current through their protection diodes from Meggy's bus lines, loading the supply voltage during the high-current programming pulses and causing timeouts. Programming works correctly either standalone (not installed in the Amiga) or with the Amiga powered on.
+**Power and bus contention note:** the safest way to program Meggy is standalone — removed from the Amiga socket and powered from USB only. This avoids both power and bus contention issues entirely.
+
+Programming while installed in the Amiga with the Amiga powered off would be equally convenient, but unfortunately does not work reliably. The unpowered chips on the motherboard (CPU, Gary, RAM) draw current through their protection diodes from Meggy's bus lines, dragging down the supply voltage during programming and causing timeouts at around 12% through the image.
+
+With the Amiga powered on, programming works reliably in practice, but there is a theoretical bus contention risk: the address and data lines are shared directly between the AVR and the Amiga bus, and the CPU may drive the same lines simultaneously during any bus cycle — not just ROM accesses. The /OE isolation provided by U4 (74AHCT1G126GW) prevents Gary from asserting /OE on the flash, so the flash will not drive data lines in response to Amiga read cycles — if the CPU attempts a ROM read it simply reads floating lines and stalls or crashes harmlessly. The flash being in read mode between programming operations is the safer state; the contention risk is highest during the brief /WE pulse when the AVR actively drives data lines. In practice the contention window is very brief and programming completes without errors, but for critical or repeated programming operations removing the board first is the cleanest approach.
 
 ## Quick-start
 
