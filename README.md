@@ -1,5 +1,5 @@
 # Meggy
-A 1MB Kickstart ROM for the A500+, using a 16 Mbit M29F160 parallel NOR flash, USB programmable from your PC
+A 1MB USB-programmable Kickstart ROM board for Amiga computers with a 42-pin ROM socket (A500+, A600). With a small modification also works in machines with a 40-pin ROM socket such as the A500 rev 6A and B2000.
 
 ***
 
@@ -157,7 +157,7 @@ If you run `meggy_flash.py` before installing PyUSB you will see the reminder me
 
 PyUSB on Windows requires `libusb-1.0.dll` to be present. Download the latest libusb release from [libusb.info](https://libusb.info), open the archive with 7-Zip or similar, and copy `libusb-1.0.dll` from the `VS2015\MS64\dll\` folder into `C:\Windows\System32`.
 
-![Copy libusb-1.0.dll to C:\Windows\System32](images/Copy_libusb_1.0_dll.jpg)
+![Copy libusb-1.0.dll to C:\Windows\System32](images/Copy_libusb_1_0_dll.jpg)
 
 ---
 
@@ -296,7 +296,7 @@ With the firmware running and the WinUSB driver installed, use `meggy_flash.py` 
 
 Programming while installed in the Amiga with the Amiga powered off would be equally convenient, but unfortunately does not work reliably. The unpowered chips on the motherboard (CPU, Gary, RAM) draw current through their protection diodes from Meggy's bus lines, dragging down the supply voltage during programming and causing timeouts at around 12% through the image.
 
-With the Amiga powered on, programming works reliably in practice, but there is a theoretical bus contention risk: the address and data lines are shared directly between the AVR and the Amiga bus, and the CPU may drive the same lines simultaneously during any bus cycle — not just ROM accesses. The /OE isolation provided by U4 (74AHCT1G126GW) prevents Gary from asserting /OE on the flash, so the flash will not drive data lines in response to Amiga read cycles — if the CPU attempts a ROM read it simply reads floating lines and stalls or crashes harmlessly. The flash being in read mode between programming operations is the safer state; the contention risk is highest during the brief /WE pulse when the AVR actively drives data lines. In practice the contention window is very brief and programming completes without errors, but for critical or repeated programming operations removing the board first is the cleanest approach.
+With the Amiga powered on, programming works reliably in practice, but there is a theoretical bus contention risk: the address and data lines are shared directly between the AVR and the Amiga bus, and the CPU may drive the same lines simultaneously during any bus cycle. The /OE isolation provided by U4 (74AHCT1G126GW) prevents Gary from asserting /OE on the flash, so the flash will not drive data lines in response to Amiga read cycles — if the CPU attempts a ROM read it simply reads floating lines and stalls or crashes harmlessly. The flash being in read mode between programming operations is the safer state; the contention risk is highest during the brief /WE pulse when the AVR actively drives data lines. In practice the contention window is very brief and programming completes without errors, but for critical or repeated programming operations removing the board first is the cleanest approach.
 
 ## Quick-start
 
@@ -325,21 +325,72 @@ python meggy_flash.py --avr-reset
 
 ***
 
+# Using Meggy in a 40-pin ROM Socket (A500 rev 6A, A2000)
+
+Meggy is designed for the 42-pin ROM socket found in the A500+ and A600. With a small modification it also works in machines with a 40-pin ROM socket such as the A500 rev 6A and A2000, which lack pin 1 (A19) and pin 42 (VCC sense). The following has been tested on an A500 rev 6A.
+
+## Modifications Required
+
+**J2 slot switch — replace MSK12D19 with a pin header:**
+On the A500 rev 6A the can oscillator on the motherboard sits directly below where the MSK12D19 slide switch would be, making it impossible to fit. Desolder the MSK12D19 from J2 and replace it with a standard 3-pin 2.54mm right-angle pin header. A standard 2.54mm jumper shunt can then be used to select the slot, and the right-angle header clears the can oscillator without conflict.
+
+**Remove the plastic guards from the pin strips:**
+Single-wipe sockets have shallower contact depth than dual-wipe sockets. The plastic guard on the pin strips adds height that may prevent Meggy from seating fully into the socket. If this is the case, the plastic guards need to be removed. Work a thin blade carefully under the guard to lift it slightly away from the PCB, then once there is enough clearance grip the guard with your fingers and slide it off the pins. See the tip in the Pin Headers section above about guard orientation — if the guards were soldered facing away from the PCB this step is much easier.
+
+**A19 jumper wire:**
+The 42-pin socket has pin 1 carrying the CPU A19 signal, which selects which 512KB bank of the Kickstart the CPU is accessing. The 40-pin socket does not have this pin, so Meggy's pin 1 will hang over the edge of the socket with no connection. A short jumper wire must be soldered from Meggy's pin 1 to the A19 signal on the motherboard.
+
+On the A500 rev 6A the A19 signal is conveniently available at solder jumper JP2 on the motherboard, which is only about 1cm from where Meggy's pin 1 overhangs the socket — making it a very short and clean connection. Alternatively A19 can be found at pin 47 of the 68000 CPU (DIP-64 package).
+
+## Compatibility Notes
+
+- Tested and working on A500 rev 6A with Kickstart 3.1.4 (512KB duplicated) and 1MB capitoline image
+- The single-wipe socket on the A500 rev 6A gives less firm contact than a dual-wipe socket — replacing it with a good quality dual-wipe socket is recommended for long term reliability
+- The 1MB capitoline extended ROM image works correctly — icon.library 45.22 and workbench.library 45.194 load from extended ROM at $E00000 even when booting an older Workbench disk
+
+## Photos
+
+Meggy with plastic guards still on the pin strips:
+
+<a href="images/Meggy_revC_with_plastic_guards_on_pins.jpg"><img src="images/Meggy_revC_with_plastic_guards_on_pins.jpg" width="500" height="375"></a>
+
+Plastic guards removed and laid next to the board. Also visible: the 3-pin right-angle header fitted to J2 in place of the MSK12D19, with a standard jumper shunt for slot selection:
+
+<a href="images/Meggy_revC_with_plastic_guards_removed.jpg"><img src="images/Meggy_revC_with_plastic_guards_removed.jpg" width="500" height="375"></a>
+
+Meggy installed in the A500 rev 6A 40-pin socket. Pin 1 hangs over the left edge of the socket with no connection yet. The can oscillator is visible to the left — this is why the MSK12D19 had to be replaced with a pin header. JP2 carrying the A19 signal is visible on the motherboard just to the left of Meggy's overhanging pin 1:
+
+<a href="images/Meggy_revC_installed_in_A500_pin1_hanging_outside_socket.jpg"><img src="images/Meggy_revC_installed_in_A500_pin1_hanging_outside_socket.jpg" width="500" height="375"></a>
+
+Meggy installed with the A19 jumper wire connected. Yellow test clip leads run from Meggy's overhanging pin 1 to the A19 signal on the 68000 CPU. JP2 on the motherboard — visible just to the left of Meggy — provides a much neater and closer connection point for a permanent wire:
+
+<a href="images/Meggy_revC_installed_in_A500_showing_jumper_wire.jpg"><img src="images/Meggy_revC_installed_in_A500_showing_jumper_wire.jpg" width="500" height="375"></a>
+
+DiagROM V1.2.1 running on the A500 rev 6A — CPU 68000, 1024kB chip RAM confirmed:
+
+<a href="images/Meggy_revC_screenshot_of_diagrom.jpg"><img src="images/Meggy_revC_screenshot_of_diagrom.jpg" width="500" height="375"></a>
+
+Workbench 1.3 (34.34) booting under Kickstart 3.1.4 (46.143) on the A500 rev 6A. icon.library version 45.22 and workbench.library version 45.194 are both loading from the extended ROM at $E00000 — confirming the full 1MB capitoline image works correctly on the A500 rev 6A:
+
+<a href="images/Meggy_revC_screenshot_of_wb13.jpg"><img src="images/Meggy_revC_screenshot_of_wb13.jpg" width="500" height="375"></a>
+
+***
+
 # Power Supply Measurements
 
 The diode-OR power circuit was measured with a multimeter to verify correct operation. All measurements taken with Meggy Rev C installed in the Amiga. Click any image for full size.
 
 **USB VBUS and Schottky drop — Amiga off, USB plugged:**
 
-<a href="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_off.jpg" width="256" height="192"></a>
-<a href="images/Meggy_revC_voltage_level from_usb_after_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level from_usb_after_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_off.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_after_schottky_amiga_off.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_off_usb_plugged.jpg" width="256" height="192"></a>
 
 Left to right: **5.103V** raw USB VBUS before D2 — **4.85V** on BOARD_5V after D2 (~250mV Schottky drop) — **0.9mV** on Amiga VCC rail, effectively zero. D1 correctly blocks backfeed from BOARD_5V into the unpowered Amiga.
 
 **Amiga powered on — USB plugged and unplugged:**
 
-<a href="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level from_usb_before_schottky_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
+<a href="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_from_usb_before_schottky_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_plugged.jpg" width="256" height="192"></a>
 <a href="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg"><img src="images/Meggy_revC_voltage_level_at_vcc_amiga_on_usb_unplugged.jpg" width="256" height="192"></a>
 
