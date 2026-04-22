@@ -327,7 +327,7 @@ python meggy_flash.py --avr-reset
 
 # Using Meggy in a 40-pin ROM Socket (A500 rev 6A, A2000)
 
-Meggy is designed for the 42-pin ROM socket found in the A500+ and A600. With a small modification it also works in machines with a 40-pin ROM socket such as the A500 rev 6A and A2000, which lack pin 1 (A19) and pin 42 (VCC sense). The following has been tested on an A500 rev 6A.
+Meggy is designed for the 42-pin ROM socket found in the A500+ and A600. With a small modification it also works in machines with a 40-pin ROM socket such as the A500 rev 6A and A2000, which lack pin 1 (A19) and pin 42 (A20). The following has been tested on an A500 rev 6A.
 
 ## Modifications Required
 
