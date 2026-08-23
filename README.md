@@ -71,18 +71,41 @@ D1 and D2 form a diode-OR, allowing both supplies to coexist safely. The higher 
 
 ## Pin Headers (U1)
 
-The two 1×21 pin headers that plug into the Amiga ROM socket are cut from a standard **1×50 1.27 mm pitch strip**. Every other pin is removed, leaving 21 pins per row at 2.54 mm pitch.
+The two 1×21 pin headers that plug into the Amiga ROM socket are made from standard **1.27 mm pitch pin strips** with every other pin used, giving 21 pins per row at 2.54 mm pitch.
 
-The reason for starting with a 1.27 mm strip rather than a conventional 2.54 mm strip is pin geometry: the 1.27 mm strip has **0.4 mm square pins**, which seat noticeably better in Amiga dual-wipe sockets than the standard turned (round) pins found on 2.54 mm strips. Turned pins are typically ~0.47 mm in diameter and can spread the socket contacts over time, whereas the slimmer square pins make clean contact without stressing the socket.
+The reason for starting with 1.27 mm strips rather than conventional 2.54 mm strips is pin geometry: 1.27 mm strips have **0.4 mm square pins**, which seat noticeably better in Amiga dual-wipe sockets than the turned (round) pins found on 2.54 mm strips. Turned pins are typically ~0.47 mm in diameter and can spread the socket contacts over time, whereas the slimmer square pins make clean contact without stressing the socket.
 
-**Steps:**
-1. Take a 1×50 pin strip with 1.27 mm pitch (square pins, 0.4 mm across).
-2. Count off 41 pins and snap or cut to length.
-3. Starting from pin 2, pull out every other pin with pliers, leaving pins 1, 3, 5 ... 41 — 21 pins total at 2.54 mm pitch.
-4. Repeat for the second row.
-5. Insert the strips through the PCB from the bottom (component side) and solder from the top.
+### Preparation
 
-**Tip — plastic guard orientation:** Consider inserting the pin strips with the plastic guard facing away from the PCB (towards the pin tips) rather than flush against the board. If you ever need to remove the guards later — for example when fitting Meggy into a single-wipe socket where the extra height prevents the board from seating fully — they can simply be slid off by hand. If the guard is trapped against the PCB you have to pry it away with a blade first, which is fiddly and risks damage. The trade-off is that you need to hold each strip at the correct insertion depth while tacking it in place, since the guard can no longer rest against the PCB as a natural stop.
+Start with two 1.27 mm pitch pin strips, each at least 42 pins long. Using pliers or a similar tool, push every other pin down flush with the top face of the plastic guard — these are the pins that will not be soldered. The result is a strip that alternates between full-length protruding pins and pins that sit flush inside the guard.
+
+<a href="images/Meggy_revC_prepare_1.27mm_pinheader.jpg"><img src="images/Meggy_revC_prepare_1.27mm_pinheader.jpg" width="500" height="375"></a>
+
+### Self-aligning soldering technique
+
+Place both prepared strips on the work surface with the **plastic guard facing down** and the full-length pins pointing upward. Set the Meggy PCB flat on top so that it rests on the two strips — the full-length pins pass up through the PCB holes from below while the board's own weight holds everything in place.
+
+<a href="images/Meggy_revC_standing_on_1.27mm_prepared_pinheader.jpg"><img src="images/Meggy_revC_standing_on_1.27mm_prepared_pinheader.jpg" width="500" height="375"></a>
+
+Align both strips as straight as possible along the PCB edges, then **tack one corner of each strip** to hold them in position.
+
+<a href="images/Meggy_revC_1.27mm_pinheader_tacked_down.jpg"><img src="images/Meggy_revC_1.27mm_pinheader_tacked_down.jpg" width="500" height="375"></a>
+
+At this stage it is still easy to correct misalignment — reflow a tacked corner with the iron, nudge the strip with your finger, and re-tack. Check that the pins protrude consistently above the PCB along the full length of each strip before proceeding. When both strips are correctly aligned, solder all remaining pins from the top side.
+
+After soldering, the underside of the board looks like this:
+
+<a href="images/Meggy_revC_1.27mm_pinheader_fully_soldered.jpg"><img src="images/Meggy_revC_1.27mm_pinheader_fully_soldered.jpg" width="500" height="375"></a>
+
+### Removing the plastic guard
+
+With all pins soldered, grip the plastic guard firmly and pull it straight down away from the PCB. The guard separates cleanly by hand — the alternating flush pins are retained inside it and come away with it, leaving only the soldered pins.
+
+<a href="images/Meggy_revC_1.27mm_pinheader_remove_plastic_guard.jpg"><img src="images/Meggy_revC_1.27mm_pinheader_remove_plastic_guard.jpg" width="500" height="375"></a>
+
+The finished board has two neat rows of evenly spaced pins with no plastic guard to limit insertion depth, allowing Meggy to seat fully into any socket.
+
+<a href="images/Meggy_revC_1.27mm_pinheader_end_result.jpg"><img src="images/Meggy_revC_1.27mm_pinheader_end_result.jpg" width="500" height="375"></a>
 
 ## J2 Slide Switch (MSK12D19) — Bending and Soldering
 
@@ -336,8 +359,8 @@ Meggy is designed for the 42-pin ROM socket found in the A500+ and A600. With a 
 **J2 slot switch — replace MSK12D19 with a pin header:**
 On the A500 rev 6A the can oscillator on the motherboard sits directly below where the MSK12D19 slide switch would be, making it impossible to fit. Desolder the MSK12D19 from J2 and replace it with a standard 3-pin 2.54mm right-angle pin header. A standard 2.54mm jumper shunt can then be used to select the slot, and the right-angle header clears the can oscillator without conflict.
 
-**Remove the plastic guards from the pin strips:**
-Single-wipe sockets have shallower contact depth than dual-wipe sockets. The plastic guard on the pin strips adds height that may prevent Meggy from seating fully into the socket. If this is the case, the plastic guards need to be removed. Work a thin blade carefully under the guard to lift it slightly away from the PCB, then once there is enough clearance grip the guard with your fingers and slide it off the pins. See the tip in the Pin Headers section above about guard orientation — if the guards were soldered facing away from the PCB this step is much easier.
+**Remove the plastic guards from the pin strips (if not already done):**
+Single-wipe sockets have shallower contact depth than dual-wipe sockets. The plastic guard on the pin strips adds height that may prevent Meggy from seating fully into the socket. If you followed the recommended assembly method in the Pin Headers section above the guards will already have been removed as the final step of soldering — no further action is needed. If the guards are still present, grip each one firmly and pull it straight down away from the PCB; it should separate cleanly by hand, bringing the alternating unused pins with it.
 
 **A19 jumper wire:**
 The 42-pin socket has pin 1 carrying the CPU A19 signal, which selects which 512KB bank of the Kickstart the CPU is accessing. The 40-pin socket does not have this pin, so Meggy's pin 1 will hang over the edge of the socket with no connection. A short jumper wire must be soldered from Meggy's pin 1 to the A19 signal on the motherboard.
